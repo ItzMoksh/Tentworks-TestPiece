@@ -11,6 +11,7 @@ public class PlayerModel
     public float speed;
     [HideInInspector] public float score;
     [HideInInspector] public State state;
+    [HideInInspector] public List<VegetableModel> vegetablesInHand;
 }
 
 [Serializable]
@@ -19,4 +20,11 @@ public enum State
     ROAMING,
     IDLE,
     CHOPPING
+}
+
+[Serializable]
+public enum PlayerId
+{
+    PLAYER_ONE,
+    PLAYER_TWO
 }

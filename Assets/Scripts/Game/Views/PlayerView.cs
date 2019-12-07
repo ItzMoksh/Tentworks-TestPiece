@@ -4,51 +4,81 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField] private List<PlayerModel> players = null;
-    private Vector2 playerOnePos = Vector2.zero;
-    private Vector2 playerTwoPos = Vector2.zero;
+    [SerializeField] private GameObject controllers = null;
+    [SerializeField] private List<PlayerModel> playerModels = null;
+
+    private PlayerController playerController = null;
+
     private float moveHorizontal;
     private float moveVertical;
     private Vector2 movementP1;
     private Vector2 movementP2;
 
+    private List<bool> vegetableNear = new List<bool>(2) { false, false };
+
+    private void Awake()
+    {
+        playerController = controllers.GetComponentInChildren<PlayerController>();
+    }
+
     private void Start()
     {
-        playerOnePos = players[0].playerRb.position;
-        playerTwoPos = players[1].playerRb.position;
+        playerController.UpdatePlayersModel(playerModels);
     }
 
     private void FixedUpdate()
     {
-        CheckForPlayerOneInput();
-        CheckForPlayerTwoInput();
+        CheckForPlayerOneMovementInput();
+        CheckForPlayerTwoMovementInput();
     }
 
-    private void CheckForPlayerOneInput()
+    private void Update()
     {
-        moveHorizontal = Input.GetAxis("HorizontalOne") * players[0].speed;
-        moveVertical = Input.GetAxis("VerticalOne") * players[0].speed;
+        CheckForPlayerOneInteractInput();
+        CheckForPlayerTwoInteractInput();
+    }
+
+    private void CheckForPlayerOneInteractInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && vegetableNear[0])
+        {
+            playerController.OnVegetableInteract(PlayerId.PLAYER_ONE);
+        }
+    }
+
+    private void CheckForPlayerTwoInteractInput()
+    {
+        if (Input.GetKeyDown(KeyCode.RightShift) && vegetableNear[1])
+        {
+            playerController.OnVegetableInteract(PlayerId.PLAYER_TWO);
+        }
+    }
+
+    private void CheckForPlayerOneMovementInput()
+    {
+        moveHorizontal = Input.GetAxis("HorizontalOne") * playerController.playerModels[0].speed;
+        moveVertical = Input.GetAxis("VerticalOne") * playerController.playerModels[0].speed;
 
         movementP1 = new Vector2(moveHorizontal, moveVertical);
         movementP1.Normalize();
-        players[0].playerRb.velocity = movementP1 * players[0].speed;
+        playerController.playerModels[0].playerRb.velocity = movementP1 * playerController.playerModels[0].speed;
     }
 
-    private void CheckForPlayerTwoInput()
+    private void CheckForPlayerTwoMovementInput()
     {
-        moveHorizontal = Input.GetAxis("HorizontalTwo") * players[0].speed;
-        moveVertical = Input.GetAxis("VerticalTwo") * players[0].speed;
+        moveHorizontal = Input.GetAxis("HorizontalTwo") * playerController.playerModels[1].speed;
+        moveVertical = Input.GetAxis("VerticalTwo") * playerController.playerModels[1].speed;
 
         movementP2 = new Vector2(moveHorizontal, moveVertical);
         movementP2.Normalize();
-        players[1].playerRb.velocity = movementP2 * players[0].speed;
+        playerController.playerModels[1].playerRb.velocity = movementP2 * playerController.playerModels[1].speed;
 
     }
 
     private void StopPlayerMovement()
     {
         Debug.Log("Stop");
-        players.ForEach(player =>
+        playerModels.ForEach(player =>
         {
             player.playerRb.velocity = Vector2.zero;
         });
@@ -61,16 +91,29 @@ public class PlayerView : MonoBehaviour
 
     public void CollisionCallBack(Collision2D collision, int playerId)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            // Vector2 positionRelative = transform.InverseTransformPoint(collision.transform.position);
-            // float moveRelative = Vector2.Distance(positionRelative, new Vector2(moveHorizontal,moveVertical));
-            // if (moveRelative > 1.0f)
-            // {
 
-            // }
-            // else
-            //     StopPlayerMovement();
+    }
+
+    public void CollisionExitCallBack(Collision2D collision, int playerId)
+    {
+
+    }
+
+    public void TriggerEnterCallBack(Collider2D collider, int playerId)
+    {
+        if (collider.tag == "Vegetable")
+        {
+            Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
+            vegetableNear[playerId] = true;
+        }
+    }
+
+    public void TriggerExitCallBack(Collider2D collider, int playerId)
+    {
+        if (collider.gameObject.tag == "Vegetable")
+        {
+             Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
+            vegetableNear[playerId] = false;
         }
     }
 }

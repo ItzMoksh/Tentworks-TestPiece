@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SaladModel 
+public class SaladModel
 {
     string name;
     List<VegetableModel> vegetables;
@@ -13,16 +13,17 @@ public class SaladModel
 [Serializable]
 public class VegetableModel
 {
-    VegetableType type;
+    public GameObject vegetableObject;
+    public Sprite vegetableSprite;
+    public VegetableType type;
     // State state;
 }
-
-enum VegetableType
+public enum VegetableType
 {
     CUCUMBER,
     BELL_PEPPER,
     TOMATO,
-    CABBAGE,    
+    CABBAGE,
     BROCCOLI,
     RADISH
 }
