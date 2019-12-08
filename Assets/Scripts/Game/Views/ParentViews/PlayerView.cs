@@ -15,6 +15,7 @@ public class PlayerView : MonoBehaviour
     private Vector2 movementP2;
 
     private List<bool> vegetableNear = new List<bool>(2) { false, false };
+    private List<bool> choppingBoardNear = new List<bool>(2) { false, false };
 
     private void Awake()
     {
@@ -40,17 +41,31 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerOneInteractInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && vegetableNear[0])
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            playerController.OnVegetableInteract(PlayerId.PLAYER_ONE);
+            if (vegetableNear[0])
+            {
+                playerController.OnVegetableInteract(PlayerId.PLAYER_ONE);
+            }
+            else if(choppingBoardNear[0])
+            {
+                playerController.OnChoppingBoardInteract(PlayerId.PLAYER_ONE);
+            }
         }
     }
 
     private void CheckForPlayerTwoInteractInput()
     {
-        if (Input.GetKeyDown(KeyCode.RightShift) && vegetableNear[1])
+        if (Input.GetKeyDown(KeyCode.RightShift))
         {
-            playerController.OnVegetableInteract(PlayerId.PLAYER_TWO);
+            if (vegetableNear[1])
+            {
+                playerController.OnVegetableInteract(PlayerId.PLAYER_TWO);
+            }
+            else if(choppingBoardNear[1])
+            {
+                playerController.OnChoppingBoardInteract(PlayerId.PLAYER_TWO);
+            }
         }
     }
 
@@ -101,19 +116,47 @@ public class PlayerView : MonoBehaviour
 
     public void TriggerEnterCallback(Collider2D collider, int playerId)
     {
-        if (collider.tag == "Vegetable")
+        switch (collider.tag)
         {
-            // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
-            vegetableNear[playerId] = true;
+            case "Vegetable":
+                {
+                    // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
+                    vegetableNear[playerId] = true;
+                }
+                break;
+            case "ChoppingBoard":
+                {
+                    choppingBoardNear[playerId] = true;
+                }
+                break;
+            case "Dustbin":
+                {
+
+                }
+                break;
         }
     }
 
     public void TriggerExitCallback(Collider2D collider, int playerId)
     {
-        if (collider.gameObject.tag == "Vegetable")
+        switch (collider.tag)
         {
-            //  Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
-            vegetableNear[playerId] = false;
+            case "Vegetable":
+                {
+                    // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
+                    vegetableNear[playerId] = false;
+                }
+                break;
+            case "ChoppingBoard":
+                {
+                    choppingBoardNear[playerId] = false;
+                }
+                break;
+            case "Dustbin":
+                {
+
+                }
+                break;
         }
     }
 }

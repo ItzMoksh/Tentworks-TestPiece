@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Vegetable
+  - ChoppingBoard
   layers:
   - Default
   - TransparentFX
@@ -50,4 +51,7 @@ TagManager:
     locked: 0
   - name: Kitchen
     uniqueID: 49244737
+    locked: 0
+  - name: HUD
+    uniqueID: 387023283
     locked: 0
