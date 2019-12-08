@@ -16,6 +16,8 @@ public class PlayerView : MonoBehaviour
 
     private List<bool> vegetableNear = new List<bool>(2) { false, false };
     private List<bool> choppingBoardNear = new List<bool>(2) { false, false };
+    private List<bool> restrictMovement = new List<bool>(2) { false, false };
+
 
     private void Awake()
     {
@@ -41,36 +43,55 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerOneInteractInput()
     {
+        if(restrictMovement[0])
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (vegetableNear[0])
             {
                 playerController.OnVegetableInteract(PlayerId.PLAYER_ONE);
             }
-            else if(choppingBoardNear[0])
+            else if (choppingBoardNear[0])
             {
-                playerController.OnChoppingBoardInteract(PlayerId.PLAYER_ONE);
+                playerController.PlaceVegetableOnBoard(PlayerId.PLAYER_ONE);
             }
         }
     }
 
     private void CheckForPlayerTwoInteractInput()
     {
+        if(restrictMovement[1])
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.RightShift))
         {
             if (vegetableNear[1])
             {
                 playerController.OnVegetableInteract(PlayerId.PLAYER_TWO);
             }
-            else if(choppingBoardNear[1])
+            else if (choppingBoardNear[1])
             {
-                playerController.OnChoppingBoardInteract(PlayerId.PLAYER_TWO);
+                playerController.PlaceVegetableOnBoard(PlayerId.PLAYER_TWO);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.RightAlt))
+        {
+            if (choppingBoardNear[1])
+            {
+                playerController.PickSaladFromBoard(PlayerId.PLAYER_TWO);
             }
         }
     }
 
     private void CheckForPlayerOneMovementInput()
     {
+        if(restrictMovement[0])
+        {
+            return;
+        }
         moveHorizontal = Input.GetAxis("HorizontalOne") * playerController.playerModels[0].speed;
         moveVertical = Input.GetAxis("VerticalOne") * playerController.playerModels[0].speed;
 
@@ -81,6 +102,10 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerTwoMovementInput()
     {
+        if(restrictMovement[1])
+        {
+            return;
+        }
         moveHorizontal = Input.GetAxis("HorizontalTwo") * playerController.playerModels[1].speed;
         moveVertical = Input.GetAxis("VerticalTwo") * playerController.playerModels[1].speed;
 
@@ -102,6 +127,12 @@ public class PlayerView : MonoBehaviour
     private void StopPlayerMovement(int playerId)
     {
 
+    }
+
+    public void RestrictMovement(PlayerId playerId,bool doRestrict)
+    {
+        playerModels[(int)playerId].playerRb.velocity = Vector2.zero; //To prevent player from shifting away if they interact while in motion.
+        restrictMovement[(int)playerId] = doRestrict;
     }
 
     public void CollisionCallback(Collision2D collision, int playerId)

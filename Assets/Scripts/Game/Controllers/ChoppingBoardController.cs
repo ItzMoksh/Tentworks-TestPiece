@@ -25,6 +25,6 @@ public class ChoppingBoardController : MonoBehaviour
 
     public void PlaceVegetableToChop(VegetableModel vegetable,PlayerId playerId)
     {
-        
-    }
+        Debug.LogFormat("{0} placed on board by {1}",vegetable.type,playerId);
+    }   
 }

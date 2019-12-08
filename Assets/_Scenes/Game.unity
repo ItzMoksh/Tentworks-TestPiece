@@ -661,6 +661,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllers: {fileID: 1453500925}
+--- !u!1 &291854453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 291854454}
+  - component: {fileID: 291854455}
+  m_Layer: 0
+  m_Name: ChoppingBoardController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &291854454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291854453}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1453500926}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &291854455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291854453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf49039df49f3d749bc87e570c591f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &356997281
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,8 +753,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.13}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.149999, y: -0.00000011920929}
-  - {x: 2.7364852, y: 0}
+  - {x: -3.0487614, y: 0.00000035762787}
+  - {x: -1.9290521, y: -0.00000029802322}
 --- !u!114 &356997284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,7 +973,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405553174}
-  - component: {fileID: 405553175}
   m_Layer: 0
   m_Name: Views
   m_TagString: Untagged
@@ -955,19 +997,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &405553175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405553173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 895555c79ab8fe94b9804abf514670ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  choppingBoardModels: []
 --- !u!1 &425628519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,7 +1453,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566380214}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.5, y: -0.964, z: 15.562817}
+  m_LocalPosition: {x: 5.5, y: -0.96, z: 15.562817}
   m_LocalScale: {x: 2.7692997, y: 4.1463, z: 3.06}
   m_Children: []
   m_Father: {fileID: 1455444681}
@@ -2084,9 +2113,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3148a66cf0604d86473b206abfc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Views: {fileID: 405553173}
   choppingBoardModel:
     playerId: 0
-    choppingBoard: {fileID: 0}
+    choppingBoard: {fileID: 846655852}
     vegetablesOnBoard: []
 --- !u!1 &940237922
 GameObject:
@@ -2132,8 +2162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllers: {fileID: 1453500925}
-  views: {fileID: 0}
+  views: {fileID: 405553173}
   vegetablePickLimit: 2
+  choppingTime: 2
   playerModels: []
 --- !u!1 &1022436870
 GameObject:
@@ -2178,7 +2209,7 @@ GameObject:
   - component: {fileID: 1174172090}
   - component: {fileID: 1174172091}
   m_Layer: 0
-  m_Name: ChoppingBoarView
+  m_Name: ChoppingBoardView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2210,6 +2241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895555c79ab8fe94b9804abf514670ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllers: {fileID: 1453500925}
   choppingBoardModels:
   - playerId: 0
     choppingBoard: {fileID: 846655852}
@@ -2337,9 +2369,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d3148a66cf0604d86473b206abfc45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Views: {fileID: 405553173}
   choppingBoardModel:
     playerId: 1
-    choppingBoard: {fileID: 0}
+    choppingBoard: {fileID: 1293586764}
     vegetablesOnBoard: []
 --- !u!1 &1353786167
 GameObject:
@@ -2390,8 +2423,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.13}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.149999, y: -0.00000011920929}
-  - {x: 2.7364852, y: 0}
+  - {x: -3.2657616, y: -0.054223955}
+  - {x: -2.0375504, y: -0.05422297}
 --- !u!114 &1353786170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2652,7 +2685,7 @@ Transform:
   m_Children:
   - {fileID: 445722808}
   - {fileID: 940237923}
-  - {fileID: 1650820652}
+  - {fileID: 291854454}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3052,49 +3085,6 @@ Transform:
   m_Father: {fileID: 654878075}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1650820651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1650820652}
-  - component: {fileID: 1650820653}
-  m_Layer: 0
-  m_Name: ChopBoardController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1650820652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650820651}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1453500926}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1650820653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650820651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf49039df49f3d749bc87e570c591f05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1738958876
 GameObject:
   m_ObjectHideFlags: 0
@@ -3308,8 +3298,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.13}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.149999, y: -0.00000011920929}
-  - {x: 2.7364852, y: 0}
+  - {x: -2.9945104, y: -0.108446866}
+  - {x: 0.07821291, y: -0.054224446}
 --- !u!114 &1827557886
 MonoBehaviour:
   m_ObjectHideFlags: 0

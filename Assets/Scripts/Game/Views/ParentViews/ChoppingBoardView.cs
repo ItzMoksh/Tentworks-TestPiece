@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class ChoppingBoardView : MonoBehaviour
 {
+    [SerializeField] private GameObject controllers = null;
     [SerializeField] private List<ChoppingBoardModel> choppingBoardModels = new List<ChoppingBoardModel>(2);
+
+    private ChoppingBoardController choppingBoardController = null;
+
+    private void Awake()
+    {
+        choppingBoardController = controllers.GetComponentInChildren<ChoppingBoardController>();
+    }
 
     private void Start()
     {
@@ -23,16 +31,17 @@ public class ChoppingBoardView : MonoBehaviour
 
     }
 
-    public void CollisionEnterCallback(Collision2D collision, ChoppingBoardModel choppingBoardModel)
+    public void OnTriggerEnterCallback(Collider2D collider, ChoppingBoardModel choppingBoardModel)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collider.tag == "Player")
         {
-            int playerId = collision.gameObject.GetComponent<PlayerCollisionView>().playerId;
-            
+            var playerColl = collider.GetComponent<PlayerCollisionView>();
+            int playerId = playerColl.playerId;
+            choppingBoardController.UpdateChoppingBoardOnPlayer(playerId, choppingBoardModel);
         }
     }
 
-    public void CollisionExitCallback(Collision2D collision, ChoppingBoardModel choppingBoardModel)
+    public void OnTriggerExitCallback(Collider2D collider, ChoppingBoardModel choppingBoardModel)
     {
 
     }

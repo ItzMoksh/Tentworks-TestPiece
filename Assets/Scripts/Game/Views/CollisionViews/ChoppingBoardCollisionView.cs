@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ChoppingBoardCollisionView : MonoBehaviour
 {
-    [SerializeField] private ChoppingBoardModel choppingBoardModel;
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField] private GameObject Views = null;
+    [SerializeField] private ChoppingBoardModel choppingBoardModel = new ChoppingBoardModel();
+
+    private ChoppingBoardView choppingBoardView = null;
+
+    private void Awake()
     {
-        
+        choppingBoardView = Views.GetComponentInChildren<ChoppingBoardView>();
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
+        Debug.Log("collied " + collider.tag + " " + choppingBoardModel.playerId);
+        choppingBoardView.OnTriggerEnterCallback(collider, choppingBoardModel);
+    }
 
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        choppingBoardView.OnTriggerExitCallback(collider, choppingBoardModel);
     }
 }

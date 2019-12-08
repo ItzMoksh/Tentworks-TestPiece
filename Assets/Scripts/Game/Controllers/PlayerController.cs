@@ -7,18 +7,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject controllers = null;
     [SerializeField] private GameObject views = null;
     [SerializeField] private int vegetablePickLimit = 2;
+    [SerializeField] private float choppingTime = 2f;
 
     private VegetableController vegetableController = null;
     private ChoppingBoardController choppingBoardController = null;
 
-
+    private PlayerView playerView = null;
     private ChoppingBoardView chopBoardView = null;
+
+
     [HideInInspector] public List<PlayerModel> playerModels;
 
     private void Awake()
     {
         vegetableController = controllers.GetComponentInChildren<VegetableController>();
+        choppingBoardController = controllers.GetComponentInChildren<ChoppingBoardController>();
+
         chopBoardView = views.GetComponentInChildren<ChoppingBoardView>();
+        playerView = views.GetComponentInChildren<PlayerView>();
     }
 
     private void PickupVegetable(VegetableModel vegetableModel, PlayerId playerId)
@@ -29,12 +35,20 @@ public class PlayerController : MonoBehaviour
 
     private void ChopVegetable(VegetableModel vegetableToChop, PlayerId playerId)
     {
-        choppingBoardController.PlaceVegetableToChop(vegetableToChop,playerId);
+        choppingBoardController.PlaceVegetableToChop(vegetableToChop, playerId);
+        StartCoroutine(ChoppingEnumerator(playerId));
+    }
+
+    private IEnumerator ChoppingEnumerator(PlayerId playerId)
+    {
+        RestrictMovement(playerId, true);
+        yield return new WaitForSeconds(choppingTime);
+        RestrictMovement(playerId, false);
     }
 
     private void RestrictMovement(PlayerId playerId, bool doRestrict)
     {
-
+        playerView.RestrictMovement(playerId, doRestrict);
     }
 
     public void OnVegetableInteract(PlayerId playerId)
@@ -46,7 +60,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnChoppingBoardInteract(PlayerId playerId)
+    public void PlaceVegetableOnBoard(PlayerId playerId)
     {
         if (choppingBoardController.ValidateChoppingBoardId(playerId))
         {
@@ -65,6 +79,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Not your board!");
         }
+    }
+
+    public void PickSaladFromBoard(PlayerId playerId)
+    {
+
     }
 
     public void UpdatePlayersModel(List<PlayerModel> playerModels)
