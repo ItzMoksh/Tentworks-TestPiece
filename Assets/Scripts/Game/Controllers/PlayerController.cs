@@ -55,10 +55,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnVegetableInteract(PlayerId playerId)
     {
-        if (playerModels[(int)playerId].vegetablesInHand.Count < vegetablePickLimit)
+        var playerModel = playerModels[(int)playerId];
+        if (playerModel.saladInHand == null && playerModel.vegetablesInHand.Count < vegetablePickLimit)
         {
             VegetableModel vegetableModel = vegetableController.GetVegetableModelOnPlayer(playerId);
             PickupVegetable(vegetableModel, playerId);
+        }
+        else
+        {
+            Debug.LogError("Can't pickup, empty your hands!");
         }
     }
 

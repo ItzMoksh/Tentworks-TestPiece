@@ -41,7 +41,7 @@ public class ChoppingBoardController : MonoBehaviour
         if (vegetablesOnBoard.Count > 0)
         {
             SaladModel saladModel = new SaladModel(vegetablesOnBoard);
-            choppingBoardModels[(int)playerId].vegetablesOnBoard = null;
+            choppingBoardModels[(int)playerId].vegetablesOnBoard = new List<VegetableModel>();
             return saladModel;
         }
         else
