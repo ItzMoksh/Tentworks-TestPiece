@@ -12,6 +12,7 @@ public class PlayerModel
     [HideInInspector] public float score;
     [HideInInspector] public State state;
     [HideInInspector] public List<VegetableModel> vegetablesInHand;
+    [HideInInspector] public SaladModel saladInHand;
 }
 
 [Serializable]

@@ -89,30 +89,30 @@ public class PlayerView : MonoBehaviour
 
     }
 
-    public void CollisionCallBack(Collision2D collision, int playerId)
+    public void CollisionCallback(Collision2D collision, int playerId)
     {
 
     }
 
-    public void CollisionExitCallBack(Collision2D collision, int playerId)
+    public void CollisionExitCallback(Collision2D collision, int playerId)
     {
 
     }
 
-    public void TriggerEnterCallBack(Collider2D collider, int playerId)
+    public void TriggerEnterCallback(Collider2D collider, int playerId)
     {
         if (collider.tag == "Vegetable")
         {
-            Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
+            // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
             vegetableNear[playerId] = true;
         }
     }
 
-    public void TriggerExitCallBack(Collider2D collider, int playerId)
+    public void TriggerExitCallback(Collider2D collider, int playerId)
     {
         if (collider.gameObject.tag == "Vegetable")
         {
-             Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
+            //  Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
             vegetableNear[playerId] = false;
         }
     }

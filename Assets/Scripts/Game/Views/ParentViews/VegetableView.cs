@@ -14,15 +14,18 @@ public class VegetableView : MonoBehaviour
         vegetableController = controllers.GetComponentInChildren<VegetableController>();
     }
 
-    public void TriggerEnterCallBack(Collider2D collider, VegetableModel vegetableModel)
+    public void TriggerEnterCallback(Collider2D collider, VegetableModel vegetableModel)
     {
-        int playerId = collider.GetComponent<PlayerCollisionView>().playerId;
-        vegetableController.UpdateVegetableOnPlayer(playerId,vegetableModel);
+        if (collider.tag == "Player")
+        {
+            int playerId = collider.GetComponent<PlayerCollisionView>().playerId;
+            vegetableController.UpdateVegetableOnPlayer(playerId, vegetableModel);
+        }
     }
 
-    public void TriggerExitCallBack(Collider2D collider, VegetableModel vegetableModel)
+    public void TriggerExitCallback(Collider2D collider, VegetableModel vegetableModel)
     {
-
+        
     }
 
 }

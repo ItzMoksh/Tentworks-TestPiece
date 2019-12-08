@@ -16,7 +16,7 @@ public class VegetableModel
     public GameObject vegetableObject;
     public Sprite vegetableSprite;
     public VegetableType type;
-    // State state;
+    VegetableState state;
 }
 public enum VegetableType
 {
@@ -26,4 +26,10 @@ public enum VegetableType
     CABBAGE,
     BROCCOLI,
     RADISH
+}
+
+public enum VegetableState
+{
+    UNSLICED,
+    SLICED
 }

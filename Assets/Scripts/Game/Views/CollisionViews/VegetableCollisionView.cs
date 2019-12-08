@@ -15,11 +15,11 @@ public class VegetableCollisionView : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        vegetableView.TriggerEnterCallBack(collider,vegetableModel);
+        vegetableView.TriggerEnterCallback(collider,vegetableModel);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        vegetableView.TriggerExitCallBack(collider,vegetableModel);
+        vegetableView.TriggerExitCallback(collider,vegetableModel);
     }
 }

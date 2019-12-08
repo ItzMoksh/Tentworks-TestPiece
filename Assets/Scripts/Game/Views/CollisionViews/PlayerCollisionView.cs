@@ -14,21 +14,21 @@ public class PlayerCollisionView : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        playerView.CollisionCallBack(collision,playerId);
+        playerView.CollisionCallback(collision,playerId);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        playerView.CollisionCallBack(collision,playerId);
+        playerView.CollisionCallback(collision,playerId);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        playerView.TriggerEnterCallBack(collider,playerId);
+        playerView.TriggerEnterCallback(collider,playerId);
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        playerView.TriggerExitCallBack(collider,playerId);
+        playerView.TriggerExitCallback(collider,playerId);
     }
 }

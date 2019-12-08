@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private void PickupVegetable(VegetableModel vegetableModel, PlayerId playerId)
     {
         playerModels[(int)playerId].vegetablesInHand.Add(vegetableModel);
-        Debug.LogFormat("{0} picked by {1}", playerModels[(int)playerId].vegetablesInHand[0].type, playerId);
+        Debug.LogFormat("{0} picked by {1}",vegetableModel.type, playerId);
     }
 
     public void OnVegetableInteract(PlayerId playerId)
