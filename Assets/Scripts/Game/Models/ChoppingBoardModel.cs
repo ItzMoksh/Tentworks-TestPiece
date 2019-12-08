@@ -7,11 +7,12 @@ public class ChoppingBoardModel
 {
     public PlayerId playerId;
     public GameObject choppingBoard;
+    public ChoppingBoardState state;
     [HideInInspector] public List<VegetableModel> vegetablesOnBoard;
-    // public ChoppingBoardModel(PlayerId id)
-    // {
-    //     playerId = id;
-    // }
+    public ChoppingBoardModel(PlayerId id)
+    {
+        playerId = id;
+    }
 }
 
 [Serializable]

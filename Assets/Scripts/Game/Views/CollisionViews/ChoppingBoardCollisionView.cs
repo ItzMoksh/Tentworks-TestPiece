@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChoppingBoardCollisionView : MonoBehaviour
 {
     [SerializeField] private GameObject Views = null;
-    [SerializeField] private ChoppingBoardModel choppingBoardModel = new ChoppingBoardModel();
+    [SerializeField] private ChoppingBoardModel choppingBoardModel = null;
 
     private ChoppingBoardView choppingBoardView = null;
 
@@ -16,7 +16,6 @@ public class ChoppingBoardCollisionView : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("collied " + collider.tag + " " + choppingBoardModel.playerId);
         choppingBoardView.OnTriggerEnterCallback(collider, choppingBoardModel);
     }
 

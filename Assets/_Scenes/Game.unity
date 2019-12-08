@@ -717,7 +717,7 @@ GameObject:
   - component: {fileID: 356997284}
   - component: {fileID: 356997283}
   m_Layer: 0
-  m_Name: Tomato (3)
+  m_Name: Cabbage
   m_TagString: Vegetable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -855,7 +855,7 @@ Transform:
   - {fileID: 1738958877}
   - {fileID: 401458219}
   m_Father: {fileID: 602645332}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401458218
 GameObject:
@@ -1090,7 +1090,7 @@ GameObject:
   - component: {fileID: 435739562}
   - component: {fileID: 435739561}
   m_Layer: 0
-  m_Name: Tomato (2)
+  m_Name: BellPepper
   m_TagString: Vegetable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1562,6 +1562,7 @@ Transform:
   m_LocalScale: {x: 76.8, y: 76.8, z: 76.8}
   m_Children:
   - {fileID: 425628520}
+  - {fileID: 1297856108}
   - {fileID: 1513835587}
   - {fileID: 1934199187}
   - {fileID: 393143222}
@@ -2117,6 +2118,7 @@ MonoBehaviour:
   choppingBoardModel:
     playerId: 0
     choppingBoard: {fileID: 846655852}
+    state: 0
     vegetablesOnBoard: []
 --- !u!1 &940237922
 GameObject:
@@ -2245,9 +2247,11 @@ MonoBehaviour:
   choppingBoardModels:
   - playerId: 0
     choppingBoard: {fileID: 846655852}
+    state: 0
     vegetablesOnBoard: []
   - playerId: 0
     choppingBoard: {fileID: 1293586764}
+    state: 0
     vegetablesOnBoard: []
 --- !u!1 &1293586764
 GameObject:
@@ -2373,7 +2377,64 @@ MonoBehaviour:
   choppingBoardModel:
     playerId: 1
     choppingBoard: {fileID: 1293586764}
+    state: 0
     vegetablesOnBoard: []
+--- !u!1 &1297856107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1297856108}
+  - component: {fileID: 1297856109}
+  m_Layer: 0
+  m_Name: Boundaries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1297856108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297856107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 602645332}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1297856109
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297856107}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -6.634373, y: 2.0733497}
+  - {x: -7.2811003, y: 1.2502034}
+  - {x: -7.9778376, y: 0.21819182}
+  - {x: -7.9350815, y: -4.0884924}
+  - {x: -1.7998263, y: -4.116585}
+  - {x: 2.4378393, y: -4.127574}
+  - {x: 5.44956, y: -4.1438384}
+  - {x: 5.4836726, y: 0.75315523}
+  - {x: 3.8930445, y: 1.9835931}
 --- !u!1 &1353786167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2387,7 +2448,7 @@ GameObject:
   - component: {fileID: 1353786170}
   - component: {fileID: 1353786169}
   m_Layer: 0
-  m_Name: Tomato (4)
+  m_Name: Brocolli
   m_TagString: Vegetable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2859,7 +2920,7 @@ Transform:
   - {fileID: 713893320}
   - {fileID: 112931028}
   m_Father: {fileID: 602645332}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1546023029
 GameObject:
@@ -3239,13 +3300,13 @@ MonoBehaviour:
   playerModels:
   - playerRb: {fileID: 713893322}
     id: 0
-    speed: 5
+    speed: 2.5
     score: 0
     state: 0
     vegetablesInHand: []
   - playerRb: {fileID: 112931030}
     id: 1
-    speed: 5
+    speed: 2.5
     score: 0
     state: 0
     vegetablesInHand: []
@@ -3262,7 +3323,7 @@ GameObject:
   - component: {fileID: 1827557886}
   - component: {fileID: 1827557885}
   m_Layer: 0
-  m_Name: Tomato (5)
+  m_Name: Radish
   m_TagString: Vegetable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3454,7 +3515,7 @@ Transform:
   - {fileID: 1022436871}
   - {fileID: 1455444681}
   m_Father: {fileID: 602645332}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2016326844
 GameObject:
@@ -3469,7 +3530,7 @@ GameObject:
   - component: {fileID: 2016326847}
   - component: {fileID: 2016326846}
   m_Layer: 0
-  m_Name: Tomato (1)
+  m_Name: Cucumber
   m_TagString: Vegetable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

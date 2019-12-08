@@ -58,6 +58,13 @@ public class PlayerView : MonoBehaviour
                 playerController.PlaceVegetableOnBoard(PlayerId.PLAYER_ONE);
             }
         }
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            if (choppingBoardNear[0])
+            {
+                playerController.PickSaladFromBoard(PlayerId.PLAYER_ONE);
+            }
+        }
     }
 
     private void CheckForPlayerTwoInteractInput()

@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
+
 public class SaladModel
 {
-    string name;
-    List<VegetableModel> vegetables;
+    public string name;
+    public List<VegetableModel> vegetables;
+    public SaladModel(List<VegetableModel> vegetables)
+    {
+        this.vegetables = vegetables;
+    }
 }
 
 [Serializable]

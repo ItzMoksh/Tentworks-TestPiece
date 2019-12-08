@@ -41,9 +41,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ChoppingEnumerator(PlayerId playerId)
     {
+        Debug.LogFormat("{0} Started Chopping", (PlayerId)playerId);
         RestrictMovement(playerId, true);
         yield return new WaitForSeconds(choppingTime);
         RestrictMovement(playerId, false);
+        Debug.LogFormat("{0} Finished Chopping", (PlayerId)playerId);
     }
 
     private void RestrictMovement(PlayerId playerId, bool doRestrict)
@@ -83,7 +85,36 @@ public class PlayerController : MonoBehaviour
 
     public void PickSaladFromBoard(PlayerId playerId)
     {
-
+        if (choppingBoardController.ValidateChoppingBoardId(playerId))
+        {
+            if (playerModels[(int)playerId].vegetablesInHand.Count == 0)
+            {
+                var salad = choppingBoardController.GetSaladFromBoard(playerId);
+                if (salad != null)
+                {
+                    playerModels[(int)playerId].saladInHand = salad;
+                    string vegetableList = "";
+                    {
+                        salad.vegetables.ForEach(vegetable => {
+                            vegetableList+=" "+vegetable.type;
+                        });
+                    }
+                    Debug.LogFormat("{0} Picked up {1} salad",playerId,vegetableList);
+                }
+                else
+                {
+                    Debug.LogError("Nothing on the board!");
+                }
+            }
+            else
+            {
+                Debug.LogError("Your hands need to be empty to pickup the salad!");
+            }
+        }
+        else
+        {
+            Debug.LogError("Not your board!");
+        }
     }
 
     public void UpdatePlayersModel(List<PlayerModel> playerModels)

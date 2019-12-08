@@ -16,14 +16,12 @@ public class ChoppingBoardView : MonoBehaviour
 
     private void Start()
     {
-        // ModelsInit();
-        // UpdateChoppingBoardModels();
+        ModelsInit();
     }
 
     private void ModelsInit()
     {
-        // choppingBoardModels.Add(new ChoppingBoardModel(PlayerId.PLAYER_ONE));
-        // choppingBoardModels.Add(new ChoppingBoardModel(PlayerId.PLAYER_TWO));
+        choppingBoardController.UpdateChoppingBoardModels(choppingBoardModels);
     }
 
     private void UpdateChoppingBoardModels()
