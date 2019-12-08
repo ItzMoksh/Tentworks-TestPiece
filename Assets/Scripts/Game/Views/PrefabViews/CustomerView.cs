@@ -4,32 +4,46 @@ using UnityEngine;
 
 public class CustomerView : MonoBehaviour
 {
-    [SerializeField] private CustomerModel customerModel;
-
     private CustomerController customerController;
+    private Coroutine countDown;
+    public CustomerModel customerModel = null;
 
-    private void SetTimeLeft(float time)
+
+    private void SetTimeLeft(int time)
     {
-        customerModel.timeLeft = time;
         customerModel.timeLeftText.text = time.ToString();
     }
 
     private void SetSalad(SaladModel salad)
     {
-        customerModel.salad = salad;
         for (int i = 0, l = salad.vegetables.Count; i < l; i++)
         {
             customerModel.saladText.text += salad.vegetables[i] + "\n";
         }
     }
 
-    public void Init(int id,CustomerController customerController, float time, SaladModel salad)
+    public void Init(CustomerController customerController, CustomerModel customerModel)
     {
         this.customerController = customerController;
-        SetTimeLeft(time);
-        SetSalad(salad);
+        this.customerModel = customerModel;
+        SetTimeLeft(customerModel.time);
+        SetSalad(customerModel.salad);
+        countDown = StartCoroutine(CountDown());
     }
 
+    public IEnumerator CountDown()
+    {
+        for (int i = customerModel.time; i >= 0; i--)
+        {
+            SetTimeLeft(i);
+            yield return new WaitForSeconds(1);
+        }
+        customerController.OnTimeOver(this, customerModel.customerId);
+    }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        StopCoroutine(countDown);
+    }
 
 }

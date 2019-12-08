@@ -8,6 +8,12 @@ public class SaladModel
 {
     public string name;
     public List<VegetableModel> vegetables;
+
+    public SaladModel()
+    {
+        
+    }
+
     public SaladModel(List<VegetableModel> vegetables)
     {
         this.vegetables = vegetables;

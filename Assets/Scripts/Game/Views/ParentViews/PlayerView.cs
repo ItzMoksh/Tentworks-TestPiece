@@ -18,7 +18,7 @@ public class PlayerView : MonoBehaviour
     private List<bool> choppingBoardNear = new List<bool>(2) { false, false };
     private List<bool> restrictMovement = new List<bool>(2) { false, false };
 
-
+    #region ------------------------------------------- Monobehaviour ----------------------------------------------
     private void Awake()
     {
         playerController = controllers.GetComponentInChildren<PlayerController>();
@@ -41,9 +41,13 @@ public class PlayerView : MonoBehaviour
         CheckForPlayerTwoInteractInput();
     }
 
+    #endregion ------------------------------------------------------------------------------------------------------
+
+    #region ------------------------------------------- Player Input ----------------------------------------------
+
     private void CheckForPlayerOneInteractInput()
     {
-        if(restrictMovement[0])
+        if (restrictMovement[0])
         {
             return;
         }
@@ -69,7 +73,7 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerTwoInteractInput()
     {
-        if(restrictMovement[1])
+        if (restrictMovement[1])
         {
             return;
         }
@@ -95,7 +99,7 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerOneMovementInput()
     {
-        if(restrictMovement[0])
+        if (restrictMovement[0])
         {
             return;
         }
@@ -109,7 +113,7 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerTwoMovementInput()
     {
-        if(restrictMovement[1])
+        if (restrictMovement[1])
         {
             return;
         }
@@ -121,6 +125,8 @@ public class PlayerView : MonoBehaviour
         playerController.playerModels[1].playerRb.velocity = movementP2 * playerController.playerModels[1].speed;
 
     }
+
+    #endregion --------------------------------------------------------------------------------------------------------
 
     private void StopPlayerMovement()
     {
@@ -136,11 +142,13 @@ public class PlayerView : MonoBehaviour
 
     }
 
-    public void RestrictMovement(PlayerId playerId,bool doRestrict)
+    public void RestrictMovement(PlayerId playerId, bool doRestrict)
     {
         playerModels[(int)playerId].playerRb.velocity = Vector2.zero; //To prevent player from shifting away if they interact while in motion.
         restrictMovement[(int)playerId] = doRestrict;
     }
+
+    #region ------------------------------------------- Player Collisions ----------------------------------------------
 
     public void CollisionCallback(Collision2D collision, int playerId)
     {
@@ -197,4 +205,7 @@ public class PlayerView : MonoBehaviour
                 break;
         }
     }
+
+    #endregion ------------------------------------------------------------------------------------------------------------
+
 }
