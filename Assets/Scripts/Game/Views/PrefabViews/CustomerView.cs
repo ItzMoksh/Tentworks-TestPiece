@@ -1,25 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CustomerView : MonoBehaviour
 {
+
+    [SerializeField] public TextMeshProUGUI timeLeftText;
+    [SerializeField] public TextMeshProUGUI saladText;
     private CustomerController customerController;
     private Coroutine countDown;
-    public CustomerModel customerModel = null;
+    [HideInInspector] public CustomerModel customerModel = null;
 
 
     private void SetTimeLeft(int time)
     {
-        customerModel.timeLeftText.text = time.ToString();
+        timeLeftText.text = time.ToString();
     }
 
     private void SetSalad(SaladModel salad)
     {
+        string saladString = "";
         for (int i = 0, l = salad.vegetables.Count; i < l; i++)
         {
-            customerModel.saladText.text += salad.vegetables[i] + "\n";
+            saladString += salad.vegetables[i].type + "\n";
         }
+        saladText.SetText(saladString);
     }
 
     public void Init(CustomerController customerController, CustomerModel customerModel)
@@ -28,6 +34,7 @@ public class CustomerView : MonoBehaviour
         this.customerModel = customerModel;
         SetTimeLeft(customerModel.time);
         SetSalad(customerModel.salad);
+        GetComponent<Rigidbody2D>().MovePosition(this.customerModel.tableAssigned.tableTransform.position);
         countDown = StartCoroutine(CountDown());
     }
 
@@ -36,14 +43,17 @@ public class CustomerView : MonoBehaviour
         for (int i = customerModel.time; i >= 0; i--)
         {
             SetTimeLeft(i);
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
         }
         customerController.OnTimeOver(this, customerModel.customerId);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        StopCoroutine(countDown);
+        if (collider.tag == "Player")
+        {
+            customerController.OnSaladeReceived(this, collider.GetComponent<PlayerCollisionView>().playerId);
+        }
     }
 
 }

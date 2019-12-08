@@ -11,7 +11,7 @@ public class SaladModel
 
     public SaladModel()
     {
-        
+        vegetables = new List<VegetableModel>();
     }
 
     public SaladModel(List<VegetableModel> vegetables)

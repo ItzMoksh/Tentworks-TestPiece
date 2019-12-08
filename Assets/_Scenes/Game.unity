@@ -845,8 +845,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 393143221}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.9107928, y: 1.1772857, z: -16.152517}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -51.633198, y: 87.35153, z: -8289}
+  m_LocalScale: {x: 76.8, y: 76.8, z: 76.8}
   m_Children:
   - {fileID: 469558736}
   - {fileID: 1546023030}
@@ -854,8 +854,8 @@ Transform:
   - {fileID: 4138770}
   - {fileID: 1738958877}
   - {fileID: 401458219}
-  m_Father: {fileID: 602645332}
-  m_RootOrder: 4
+  m_Father: {fileID: 630937150}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401458218
 GameObject:
@@ -1127,7 +1127,8 @@ EdgeCollider2D:
   m_EdgeRadius: 0
   m_Points:
   - {x: -1.149999, y: -0.00000011920929}
-  - {x: 6.139872, y: -0.053147167}
+  - {x: 6.1389036, y: 0.19718516}
+  - {x: 7.2785606, y: 0.18476248}
 --- !u!114 &435739562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,6 +1471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3c1bf7b195c3b43b13e0973f40c29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controllers: {fileID: 1453500925}
   customerPrefab: {fileID: 3198608948575005025, guid: 7830724374ba8494888caa564738c679,
     type: 3}
   customerSpawnPoint: {fileID: 2090286626}
@@ -1493,7 +1495,7 @@ MonoBehaviour:
     tableTransform: {fileID: 401458219}
     state: 0
   spawnDelay: 10
-  saladItemTimeMultiplier: 5
+  saladItemTimeMultiplier: 20
   minItemsInSalad: 3
   maxItemsInSalad: 5
 --- !u!1 &566380214
@@ -1634,7 +1636,6 @@ Transform:
   - {fileID: 1297856108}
   - {fileID: 1513835587}
   - {fileID: 1934199187}
-  - {fileID: 393143222}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1728,6 +1729,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 90}
   m_LocalScale: {x: 0.013020833, y: 0.013020833, z: 0.013020833}
   m_Children:
+  - {fileID: 393143222}
   - {fileID: 2090286626}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1949,7 +1951,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.0038482398}
+  m_Offset: {x: -0.001248518, y: -0.0038482398}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1960,7 +1962,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.07938319}
+  m_Size: {x: 0.10249704, y: 0.07938319}
   m_EdgeRadius: 0
 --- !u!50 &713893322
 Rigidbody2D:
@@ -2553,7 +2555,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: -0.13}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -7.5352583, y: -0.05422379}
+  - {x: -8.430214, y: -0.14366886}
   - {x: -2.0375504, y: -0.05422297}
 --- !u!114 &1353786170
 MonoBehaviour:
@@ -3732,7 +3734,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 630937150}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

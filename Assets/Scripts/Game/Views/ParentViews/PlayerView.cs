@@ -26,6 +26,10 @@ public class PlayerView : MonoBehaviour
 
     private void Start()
     {
+
+        playerModels[0].saladInHand = new SaladModel(); //Needed for bug fix.
+        playerModels[1].saladInHand = new SaladModel(); //Needed for bug fix.
+
         playerController.UpdatePlayersModel(playerModels);
     }
 

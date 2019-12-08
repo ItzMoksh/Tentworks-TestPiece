@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[Serializable]
+
 public class CustomerModel
 {
     public int customerId;
     public CustomerTableModel tableAssigned;
-    [SerializeField] public TMP_Text timeLeftText;
-    [SerializeField] public TMP_Text saladText;
-    [HideInInspector] public int time;
-    [HideInInspector] public SaladModel salad;
-    [HideInInspector] public Emotion emotion;
+    public int time;
+    public SaladModel salad;
+    public Emotion emotion;
 
     public CustomerModel(int id, int time, SaladModel salad)
     {

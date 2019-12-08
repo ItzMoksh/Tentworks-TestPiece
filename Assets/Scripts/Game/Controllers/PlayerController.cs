@@ -37,11 +37,11 @@ public class PlayerController : MonoBehaviour
     {
         choppingBoardController.PlaceVegetableToChop(vegetableToChop, playerId);
         StartCoroutine(ChoppingEnumerator(playerId));
+        Debug.LogFormat("{0} Started Chopping {1}", (PlayerId)playerId,vegetableToChop.type);
     }
 
     private IEnumerator ChoppingEnumerator(PlayerId playerId)
     {
-        Debug.LogFormat("{0} Started Chopping", (PlayerId)playerId);
         RestrictMovement(playerId, true);
         yield return new WaitForSeconds(choppingTime);
         RestrictMovement(playerId, false);
@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour
     private void RestrictMovement(PlayerId playerId, bool doRestrict)
     {
         playerView.RestrictMovement(playerId, doRestrict);
+    }
+
+    public PlayerModel GetPlayerModel(int playerId)
+    {
+        return playerModels[playerId];
     }
 
     public void OnVegetableInteract(PlayerId playerId)
@@ -100,11 +105,12 @@ public class PlayerController : MonoBehaviour
                     playerModels[(int)playerId].saladInHand = salad;
                     string vegetableList = "";
                     {
-                        salad.vegetables.ForEach(vegetable => {
-                            vegetableList+=" "+vegetable.type;
+                        salad.vegetables.ForEach(vegetable =>
+                        {
+                            vegetableList += " " + vegetable.type;
                         });
                     }
-                    Debug.LogFormat("{0} Picked up {1} salad",playerId,vegetableList);
+                    Debug.LogFormat("{0} Picked up {1} salad", playerId, vegetableList);
                 }
                 else
                 {
@@ -120,6 +126,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Not your board!");
         }
+    }
+
+    public void RemoveSaladFromPlayer(int playerId)
+    {
+        playerModels[playerId].saladInHand = new SaladModel();
     }
 
     public void UpdatePlayersModel(List<PlayerModel> playerModels)
