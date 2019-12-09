@@ -14,6 +14,11 @@ public class VegetableView : MonoBehaviour
         vegetableController = controllers.GetComponentInChildren<VegetableController>();
     }
 
+    /// <summary>
+    /// If the collider is a player, it stores it's data with vegetable model.
+    /// </summary>
+    /// <param name="collider">Object collided with the vegetable</param>
+    /// <param name="vegetableModel">Vegetable on which collision happened.</param>
     public void TriggerEnterCallback(Collider2D collider, VegetableModel vegetableModel)
     {
         if (collider.tag == "Player")
@@ -25,7 +30,11 @@ public class VegetableView : MonoBehaviour
 
     public void TriggerExitCallback(Collider2D collider, VegetableModel vegetableModel)
     {
-        
+        if (collider.tag == "Player")
+        {
+            int playerId = collider.GetComponent<PlayerCollisionView>().playerId;
+            vegetableController.UpdateVegetableOnPlayer(playerId, null);
+        }
     }
 
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Model to store and pass Chopping board related data.
+/// </summary>
 [Serializable]
 public class ChoppingBoardModel
 {

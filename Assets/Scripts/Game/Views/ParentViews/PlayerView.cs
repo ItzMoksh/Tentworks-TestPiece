@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles all visual changes and Inputs on players
+/// </summary>
 public class PlayerView : MonoBehaviour
 {
     [SerializeField] private GameObject controllers = null;
@@ -49,6 +52,9 @@ public class PlayerView : MonoBehaviour
 
     #region ------------------------------------------- Player Input ----------------------------------------------
 
+    /// <summary>
+    /// Checks for interaction inputs for player one
+    /// </summary>
     private void CheckForPlayerOneInteractInput()
     {
         if (restrictMovement[0])
@@ -75,6 +81,9 @@ public class PlayerView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks interaction input for player two.
+    /// </summary>
     private void CheckForPlayerTwoInteractInput()
     {
         if (restrictMovement[1])
@@ -101,6 +110,9 @@ public class PlayerView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks for movement Input for player one.
+    /// </summary>
     private void CheckForPlayerOneMovementInput()
     {
 
@@ -117,6 +129,9 @@ public class PlayerView : MonoBehaviour
         playerController.playerModels[0].playerRb.velocity = movementP1 * playerController.playerModels[0].speed;
     }
 
+    /// <summary>
+    /// Checks for movement input for player two.
+    /// </summary>
     private void CheckForPlayerTwoMovementInput()
     {
         playerModels[1].playerRb.isKinematic = false;
@@ -151,6 +166,11 @@ public class PlayerView : MonoBehaviour
         playerModels[playerId].playerRb.isKinematic = true;
     }
 
+    /// <summary>
+    /// Restricts movement for given player Id.
+    /// </summary>
+    /// <param name="playerId">Player to be restricted from movement</param>
+    /// <param name="doRestrict">Whether to restrict or un-restrict</param>
     public void RestrictMovement(PlayerId playerId, bool doRestrict)
     {
         playerModels[(int)playerId].playerRb.velocity = Vector2.zero; //To prevent player from shifting away if they interact while in motion.

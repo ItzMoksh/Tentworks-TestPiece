@@ -51,6 +51,7 @@ public class CustomerController : MonoBehaviour
         {
             var salad = GetRandomSaladCombination();
             time = salad.vegetables.Count * saladItemTimeMultiplier;
+            Debug.LogFormat("Empty Tables = {0}", emptyTables.Count);
             if (emptyTables.Count > 0)
             {
                 SpawnCustomer(noOfCustomers++, time, salad);
@@ -73,11 +74,13 @@ public class CustomerController : MonoBehaviour
         int random = Random.Range(0, emptyTables.Count);
         customerModel.tableAssigned = customerTables[emptyTables[random].tableId];
         emptyTables.RemoveAt(random);
+        Debug.LogFormat("Empty Tables on remove = {0}", emptyTables.Count);
     }
 
     private void AddToEmptyTables(CustomerTableModel table)
     {
         emptyTables.Add(table);
+        Debug.LogFormat("Empty Tables = {0}", emptyTables.Count);
     }
 
     private SaladModel GetRandomSaladCombination()
@@ -106,7 +109,6 @@ public class CustomerController : MonoBehaviour
 
     public void OnSaladeReceived(CustomerView customerView, int playerId)
     {
-        AddToEmptyTables(customerView.customerModel.tableAssigned);
 
         var playerModel = playerController.GetPlayerModel(playerId);
         if (playerModel.saladInHand.vegetables.Count == 0)
@@ -114,6 +116,8 @@ public class CustomerController : MonoBehaviour
             Debug.LogError("No salad in hand!");
             return;
         }
+
+        AddToEmptyTables(customerView.customerModel.tableAssigned);
 
         var customerSalad = customerView.customerModel.salad.vegetables;
         var playerSalad = playerModel.saladInHand.vegetables;
@@ -126,9 +130,9 @@ public class CustomerController : MonoBehaviour
             for (int i = 0, l = customerSalad.Count; i < l; i++)
             {
                 customerVegetableList.Add(customerSalad[i].type);
-                Debug.LogFormat("Added {0} to customerlist",customerSalad[i].type);
+                Debug.LogFormat("Added {0} to customerlist", customerSalad[i].type);
                 playerVegetableList.Add(playerSalad[i].type);
-                Debug.LogFormat("Added {0} to playerveglist",playerSalad[i].type);
+                Debug.LogFormat("Added {0} to playerveglist", playerSalad[i].type);
             }
 
             int diff = customerVegetableList.Except(playerVegetableList).ToList().Count;

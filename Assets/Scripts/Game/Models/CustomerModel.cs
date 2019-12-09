@@ -5,6 +5,9 @@ using UnityEngine;
 using TMPro;
 
 
+/// <summary>
+/// Model class to store and pass data related to Customers.
+/// </summary>
 public class CustomerModel
 {
     public int customerId;
