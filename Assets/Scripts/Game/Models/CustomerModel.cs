@@ -27,6 +27,13 @@ public class CustomerTableModel
     public int tableId;
     public Transform tableTransform;
     public TableState state;
+
+    public CustomerTableModel(CustomerTableModel model)
+    {
+        tableId = model.tableId;
+        tableTransform = model.tableTransform;
+        state = model.state;
+    }
 }
 
 public enum Emotion

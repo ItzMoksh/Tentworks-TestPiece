@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
     public void OnVegetableInteract(PlayerId playerId)
     {
         var playerModel = playerModels[(int)playerId];
-        if (playerModel.saladInHand == null && playerModel.vegetablesInHand.Count < vegetablePickLimit)
+        if (playerModel.saladInHand.vegetables.Count == 0 && playerModel.vegetablesInHand.Count < vegetablePickLimit)
         {
             VegetableModel vegetableModel = vegetableController.GetVegetableModelOnPlayer(playerId);
             PickupVegetable(vegetableModel, playerId);

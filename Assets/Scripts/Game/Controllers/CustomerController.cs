@@ -18,7 +18,6 @@ public class CustomerController : MonoBehaviour
     private List<VegetableType> allVegetables = new List<VegetableType>();
     private List<CustomerTableModel> emptyTables = new List<CustomerTableModel>();
     private int noOfCustomers = 0;
-
     private void Awake()
     {
         playerController = controllers.GetComponentInChildren<PlayerController>();
@@ -33,7 +32,7 @@ public class CustomerController : MonoBehaviour
 
     private void InitTables()
     {
-        emptyTables = customerTables;
+        emptyTables = customerTables.ConvertAll(table => new CustomerTableModel(table));
     }
 
     private void InitVegetableList()
@@ -52,7 +51,10 @@ public class CustomerController : MonoBehaviour
         {
             var salad = GetRandomSaladCombination();
             time = salad.vegetables.Count * saladItemTimeMultiplier;
-            SpawnCustomer(noOfCustomers++, time, salad);
+            if (emptyTables.Count > 0)
+            {
+                SpawnCustomer(noOfCustomers++, time, salad);
+            }
             yield return new WaitForSeconds(spawnDelay);
         }
     }
@@ -69,7 +71,7 @@ public class CustomerController : MonoBehaviour
     private void AssignTable(CustomerModel customerModel)
     {
         int random = Random.Range(0, emptyTables.Count);
-        customerModel.tableAssigned = emptyTables[random];
+        customerModel.tableAssigned = customerTables[emptyTables[random].tableId];
         emptyTables.RemoveAt(random);
     }
 
@@ -121,10 +123,12 @@ public class CustomerController : MonoBehaviour
             List<VegetableType> customerVegetableList = new List<VegetableType>();
             List<VegetableType> playerVegetableList = new List<VegetableType>();
 
-            for (int i = 0, l = customerVegetableList.Count; i < l; i++)
+            for (int i = 0, l = customerSalad.Count; i < l; i++)
             {
                 customerVegetableList.Add(customerSalad[i].type);
+                Debug.LogFormat("Added {0} to customerlist",customerSalad[i].type);
                 playerVegetableList.Add(playerSalad[i].type);
+                Debug.LogFormat("Added {0} to playerveglist",playerSalad[i].type);
             }
 
             int diff = customerVegetableList.Except(playerVegetableList).ToList().Count;
@@ -136,12 +140,12 @@ public class CustomerController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarningFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
+                Debug.LogErrorFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
             }
         }
         else
         {
-            Debug.LogWarningFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
+            Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
         }
 
         Destroy(customerView.gameObject);

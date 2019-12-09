@@ -103,6 +103,7 @@ public class PlayerView : MonoBehaviour
 
     private void CheckForPlayerOneMovementInput()
     {
+
         if (restrictMovement[0])
         {
             return;
@@ -112,11 +113,13 @@ public class PlayerView : MonoBehaviour
 
         movementP1 = new Vector2(moveHorizontal, moveVertical);
         movementP1.Normalize();
+        playerModels[0].playerRb.isKinematic = false;
         playerController.playerModels[0].playerRb.velocity = movementP1 * playerController.playerModels[0].speed;
     }
 
     private void CheckForPlayerTwoMovementInput()
     {
+        playerModels[1].playerRb.isKinematic = false;
         if (restrictMovement[1])
         {
             return;
@@ -143,7 +146,9 @@ public class PlayerView : MonoBehaviour
 
     private void StopPlayerMovement(int playerId)
     {
-
+        Debug.LogWarning("stoping");
+        playerModels[playerId].playerRb.velocity = Vector2.zero;
+        playerModels[playerId].playerRb.isKinematic = true;
     }
 
     public void RestrictMovement(PlayerId playerId, bool doRestrict)
