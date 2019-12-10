@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds PlayerId and callbacks it's parent view on collision.
+/// </summary>
 public class PlayerCollisionView : MonoBehaviour
 {
     [SerializeField] private GameObject views = null;

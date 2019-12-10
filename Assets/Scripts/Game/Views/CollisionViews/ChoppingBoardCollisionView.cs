@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds Chopping board model and callbacks it's parent view on collision.
+/// </summary>
 public class ChoppingBoardCollisionView : MonoBehaviour
 {
     [SerializeField] private GameObject Views = null;

@@ -12,14 +12,15 @@ public class PlayerView : MonoBehaviour
 
     private PlayerController playerController = null;
 
-    private float moveHorizontal;
-    private float moveVertical;
-    private Vector2 movementP1;
-    private Vector2 movementP2;
+    private float moveHorizontal = 0f;
+    private float moveVertical = 0f;
 
-    private List<bool> vegetableNear = new List<bool>(2) { false, false };
-    private List<bool> choppingBoardNear = new List<bool>(2) { false, false };
+    private List<Vector2> movement = new List<Vector2>() { Vector2.zero, Vector2.zero };
+
+    private List<InteractablesNear> interactablesNear = new List<InteractablesNear>(2) { new InteractablesNear(), new InteractablesNear() };
+
     private List<bool> restrictMovement = new List<bool>(2) { false, false };
+
 
     #region ------------------------------------------- Monobehaviour ----------------------------------------------
     private void Awake()
@@ -38,14 +39,14 @@ public class PlayerView : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckForPlayerOneMovementInput();
-        CheckForPlayerTwoMovementInput();
+        CheckForPlayerMovementInput(0);
+        CheckForPlayerMovementInput(1);
     }
 
     private void Update()
     {
-        CheckForPlayerOneInteractInput();
-        CheckForPlayerTwoInteractInput();
+        CheckForPlayerInteractInput(0);
+        CheckForPlayerInteractInput(1);
     }
 
     #endregion ------------------------------------------------------------------------------------------------------
@@ -53,59 +54,31 @@ public class PlayerView : MonoBehaviour
     #region ------------------------------------------- Player Input ----------------------------------------------
 
     /// <summary>
-    /// Checks for interaction inputs for player one
+    /// Checks for player interaciton inputs
     /// </summary>
-    private void CheckForPlayerOneInteractInput()
+    /// <param name="playerId">Specify whcih player to check movement for.</param>
+    private void CheckForPlayerInteractInput(int playerId)
     {
-        if (restrictMovement[0])
+        if (restrictMovement[playerId])
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if ((Input.GetKeyDown(KeyCode.LeftShift) && playerId == 0) || (Input.GetKeyDown(KeyCode.RightShift) && playerId == 1))
         {
-            if (vegetableNear[0])
+            if (interactablesNear[playerId].vegetable)
             {
-                playerController.OnVegetableInteract(PlayerId.PLAYER_ONE);
+                playerController.OnVegetableInteract((PlayerId)playerId);
             }
-            else if (choppingBoardNear[0])
+            else if (interactablesNear[playerId].choppingBoard)
             {
-                playerController.PlaceVegetableOnBoard(PlayerId.PLAYER_ONE);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            if (choppingBoardNear[0])
-            {
-                playerController.PickSaladFromBoard(PlayerId.PLAYER_ONE);
+                playerController.PlaceVegetableOnBoard((PlayerId)playerId);
             }
         }
-    }
-
-    /// <summary>
-    /// Checks interaction input for player two.
-    /// </summary>
-    private void CheckForPlayerTwoInteractInput()
-    {
-        if (restrictMovement[1])
+        if ((Input.GetKeyDown(KeyCode.LeftAlt) && playerId == 0) || (Input.GetKeyDown(KeyCode.RightAlt) && playerId == 1))
         {
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.RightShift))
-        {
-            if (vegetableNear[1])
+            if (interactablesNear[playerId].choppingBoard)
             {
-                playerController.OnVegetableInteract(PlayerId.PLAYER_TWO);
-            }
-            else if (choppingBoardNear[1])
-            {
-                playerController.PlaceVegetableOnBoard(PlayerId.PLAYER_TWO);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.RightAlt))
-        {
-            if (choppingBoardNear[1])
-            {
-                playerController.PickSaladFromBoard(PlayerId.PLAYER_TWO);
+                playerController.PickSaladFromBoard((PlayerId)playerId);
             }
         }
     }
@@ -113,40 +86,31 @@ public class PlayerView : MonoBehaviour
     /// <summary>
     /// Checks for movement Input for player one.
     /// </summary>
-    private void CheckForPlayerOneMovementInput()
+    private void CheckForPlayerMovementInput(int playerId)
     {
 
-        if (restrictMovement[0])
+        if (restrictMovement[playerId])
         {
             return;
         }
-        moveHorizontal = Input.GetAxis("HorizontalOne") * playerController.playerModels[0].speed;
-        moveVertical = Input.GetAxis("VerticalOne") * playerController.playerModels[0].speed;
-
-        movementP1 = new Vector2(moveHorizontal, moveVertical);
-        movementP1.Normalize();
-        playerModels[0].playerRb.isKinematic = false;
-        playerController.playerModels[0].playerRb.velocity = movementP1 * playerController.playerModels[0].speed;
-    }
-
-    /// <summary>
-    /// Checks for movement input for player two.
-    /// </summary>
-    private void CheckForPlayerTwoMovementInput()
-    {
-        playerModels[1].playerRb.isKinematic = false;
-        if (restrictMovement[1])
+        if (playerId == 0)
         {
-            return;
+            moveHorizontal = Input.GetAxis("HorizontalOne") * playerController.playerModels[playerId].speed;
+            moveVertical = Input.GetAxis("VerticalOne") * playerController.playerModels[playerId].speed;
         }
-        moveHorizontal = Input.GetAxis("HorizontalTwo") * playerController.playerModels[1].speed;
-        moveVertical = Input.GetAxis("VerticalTwo") * playerController.playerModels[1].speed;
+        else
+        {
+            moveHorizontal = Input.GetAxis("HorizontalTwo") * playerController.playerModels[playerId].speed;
+            moveVertical = Input.GetAxis("VerticalTwo") * playerController.playerModels[playerId].speed;
+        }
 
-        movementP2 = new Vector2(moveHorizontal, moveVertical);
-        movementP2.Normalize();
-        playerController.playerModels[1].playerRb.velocity = movementP2 * playerController.playerModels[1].speed;
 
+        movement[playerId] = new Vector2(moveHorizontal, moveVertical);
+        movement[playerId].Normalize();
+        playerModels[playerId].playerRb.isKinematic = false;
+        playerController.playerModels[playerId].playerRb.velocity = movement[playerId] * playerController.playerModels[playerId].speed;
     }
+
 
     #endregion --------------------------------------------------------------------------------------------------------
 
@@ -195,18 +159,18 @@ public class PlayerView : MonoBehaviour
         {
             case "Vegetable":
                 {
-                    // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,true);
-                    vegetableNear[playerId] = true;
+                    // Debug.LogFormat("Setting interactables {0.} to {1}",playerId,true);
+                    interactablesNear[playerId].vegetable = true;
                 }
                 break;
             case "ChoppingBoard":
                 {
-                    choppingBoardNear[playerId] = true;
+                    interactablesNear[playerId].choppingBoard = true;
                 }
                 break;
             case "Dustbin":
                 {
-
+                    interactablesNear[playerId].dustbin = true;
                 }
                 break;
         }
@@ -218,23 +182,31 @@ public class PlayerView : MonoBehaviour
         {
             case "Vegetable":
                 {
-                    // Debug.LogFormat("Setting vegetableNear {0} to {1}",playerId,false);
-                    vegetableNear[playerId] = false;
+                    // Debug.LogFormat("Setting interactables {0.} to {1}",playerId,false);
+                    interactablesNear[playerId].vegetable = false;
                 }
                 break;
             case "ChoppingBoard":
                 {
-                    choppingBoardNear[playerId] = false;
+                    interactablesNear[playerId].choppingBoard = false;
                 }
                 break;
             case "Dustbin":
                 {
-
+                    interactablesNear[playerId].dustbin = true;
                 }
                 break;
         }
     }
 
     #endregion ------------------------------------------------------------------------------------------------------------
+}
+public class InteractablesNear
+{
+    public bool vegetable = false;
+    public bool choppingBoard = false;
+    public bool dustbin = false;
+    public bool plate = false;
 
 }
+

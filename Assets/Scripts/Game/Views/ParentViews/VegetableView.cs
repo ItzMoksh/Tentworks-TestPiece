@@ -6,8 +6,9 @@ public class VegetableView : MonoBehaviour
 {
     // [SerializeField] private List<VegetableModel> vegetables = null;
     [SerializeField] private GameObject controllers = null;
+    [SerializeField] private Color vegetableColorInteractable = new Color();
+    [SerializeField] private Color vegetableColorNormal = new Color();
     private VegetableController vegetableController = null;
-
 
     private void Awake()
     {
@@ -22,7 +23,8 @@ public class VegetableView : MonoBehaviour
     public void TriggerEnterCallback(Collider2D collider, VegetableModel vegetableModel)
     {
         if (collider.tag == "Player")
-        {
+        {   
+            vegetableModel.vegetableObject.GetComponent<SpriteRenderer> ().color = vegetableColorInteractable;
             int playerId = collider.GetComponent<PlayerCollisionView>().playerId;
             vegetableController.UpdateVegetableOnPlayer(playerId, vegetableModel);
         }
@@ -32,6 +34,7 @@ public class VegetableView : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
+            vegetableModel.vegetableObject.GetComponent<SpriteRenderer> ().color = vegetableColorNormal;
             int playerId = collider.GetComponent<PlayerCollisionView>().playerId;
             vegetableController.UpdateVegetableOnPlayer(playerId, null);
         }

@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Model class for storing and passing Player related data.
+/// </summary>
 [Serializable]
 public class PlayerModel
 {

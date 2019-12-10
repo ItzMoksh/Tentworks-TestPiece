@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Holds vegetable model and call backs its parent view on collision.
+/// </summary>
 public class VegetableCollisionView : MonoBehaviour
 {
     [SerializeField] private GameObject Views = null;

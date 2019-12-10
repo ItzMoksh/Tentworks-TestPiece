@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles visual changes and Inputs on chopping board.
+/// </summary>
 public class ChoppingBoardView : MonoBehaviour
 {
     [SerializeField] private GameObject controllers = null;
