@@ -15,19 +15,15 @@ public class CustomerController : MonoBehaviour
     [SerializeField] private int maxItemsInSalad = 5;
 
     private PlayerController playerController = null;
+    private GameController gameController = null;
+
     private List<VegetableType> allVegetables = new List<VegetableType>();
     private List<CustomerTableModel> emptyTables = new List<CustomerTableModel>();
     private int noOfCustomers = 0;
     private void Awake()
     {
         playerController = controllers.GetComponentInChildren<PlayerController>();
-    }
-
-    private void Start()
-    {
-        InitTables();
-        InitVegetableList();
-        StartCoroutine(Spawner());
+        gameController = controllers.GetComponentInChildren<GameController>();
     }
 
     private void InitTables()
@@ -99,6 +95,14 @@ public class CustomerController : MonoBehaviour
         return salad;
     }
 
+
+    public void StartGame()
+    {
+        InitTables();
+        InitVegetableList();
+        StartCoroutine(Spawner());
+    }
+
     public void OnTimeOver(CustomerView customerView, int id)
     {
         //Deduct Score
@@ -130,9 +134,7 @@ public class CustomerController : MonoBehaviour
             for (int i = 0, l = customerSalad.Count; i < l; i++)
             {
                 customerVegetableList.Add(customerSalad[i].type);
-                Debug.LogFormat("Added {0} to customerlist", customerSalad[i].type);
                 playerVegetableList.Add(playerSalad[i].type);
-                Debug.LogFormat("Added {0} to playerveglist", playerSalad[i].type);
             }
 
             int diff = customerVegetableList.Except(playerVegetableList).ToList().Count;
@@ -140,19 +142,22 @@ public class CustomerController : MonoBehaviour
             Debug.Log(diff);
             if (diff > 0)
             {
+                gameController.OnInCorrectDelivery(playerId);
                 Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
             }
             else
             {
-                Debug.LogErrorFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
+                gameController.OnCorrectDelivery(playerId);
+                Destroy(customerView.gameObject);
+                Debug.LogWarningFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
             }
         }
         else
         {
+            gameController.OnInCorrectDelivery(playerId);
             Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
         }
 
-        Destroy(customerView.gameObject);
         playerController.RemoveSaladFromPlayer(playerId);
     }
 

@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
     private ChoppingBoardController choppingBoardController = null;
 
     private PlayerView playerView = null;
+    private PlayerHudView playerHudView = null;
     private ChoppingBoardView chopBoardView = null;
-
 
     [HideInInspector] public List<PlayerModel> playerModels;
 
@@ -23,8 +23,9 @@ public class PlayerController : MonoBehaviour
         vegetableController = controllers.GetComponentInChildren<VegetableController>();
         choppingBoardController = controllers.GetComponentInChildren<ChoppingBoardController>();
 
-        chopBoardView = views.GetComponentInChildren<ChoppingBoardView>();
         playerView = views.GetComponentInChildren<PlayerView>();
+        playerHudView = views.GetComponentInChildren<PlayerHudView>();
+        chopBoardView = views.GetComponentInChildren<ChoppingBoardView>();
     }
 
     private void PickupVegetable(VegetableModel vegetableModel, PlayerId playerId)
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         choppingBoardController.PlaceVegetableToChop(vegetableToChop, playerId);
         StartCoroutine(ChoppingEnumerator(playerId));
-        Debug.LogFormat("{0} Started Chopping {1}", (PlayerId)playerId,vegetableToChop.type);
+        Debug.LogFormat("{0} Started Chopping {1}", (PlayerId)playerId, vegetableToChop.type);
     }
 
     private IEnumerator ChoppingEnumerator(PlayerId playerId)
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
     {
         playerModels[playerId].saladInHand = new SaladModel();
     }
-
+    
     public void UpdatePlayersModel(List<PlayerModel> playerModels)
     {
         this.playerModels = playerModels;

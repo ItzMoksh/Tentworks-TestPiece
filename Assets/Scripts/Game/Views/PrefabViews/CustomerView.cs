@@ -28,6 +28,14 @@ public class CustomerView : MonoBehaviour
         saladText.SetText(saladString);
     }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Player")
+        {
+            customerController.OnSaladeReceived(this, collider.GetComponent<PlayerCollisionView>().playerId);
+        }
+    }
+
     public void Init(CustomerController customerController, CustomerModel customerModel)
     {
         this.customerController = customerController;
@@ -46,14 +54,6 @@ public class CustomerView : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         customerController.OnTimeOver(this, customerModel.customerId);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.tag == "Player")
-        {
-            customerController.OnSaladeReceived(this, collider.GetComponent<PlayerCollisionView>().playerId);
-        }
     }
 
 }

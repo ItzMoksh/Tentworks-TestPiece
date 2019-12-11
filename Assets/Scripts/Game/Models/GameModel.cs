@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -8,11 +7,22 @@ using System.Collections.Generic;
 [Serializable]
 public class GameModel
 {
-    List<PlayerInfo> playersInfo;
+    public List<PlayerInfo> playersInfo;
 }
 
+[Serializable]
 public class PlayerInfo
 {
-    int score;
-    int timeLeft;
+    public int score;
+    public int timeLeft;
+}
+
+[Serializable]
+public class ScoreModel
+{
+    public int correctDelivery;
+    public int incorrectDelivery;
+    public int scoreBonus;
+    public int timeBonus;
+    public float speedBonus;
 }

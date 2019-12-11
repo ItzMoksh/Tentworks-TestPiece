@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Model class for storing and passing salad related data.
+/// </summary>
 public class SaladModel
 {
     public string name;
