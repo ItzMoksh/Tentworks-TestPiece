@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class ChoppingBoardController : MonoBehaviour
 {
+    [SerializeField] private GameObject controllers = null;
+
+    private PlayerController playerController = null;
     private List<ChoppingBoardModel> choppingBoardModels = new List<ChoppingBoardModel>(2);
-    private List<ChoppingBoardModel> choppingBoardInPlayerViscinity = new List<ChoppingBoardModel>(2) { null, null };
+    private List<ChoppingBoardModel> choppingBoardInPlayerViscinity = new List<ChoppingBoardModel>(2) { null,null };
+
+    private void Awake()
+    {
+        playerController = controllers.GetComponentInChildren<PlayerController>();
+    }
 
     public void UpdateChoppingBoardOnPlayer(int playerId, ChoppingBoardModel choppingBoardModel)
     {
@@ -31,7 +39,9 @@ public class ChoppingBoardController : MonoBehaviour
 
     public void PlaceVegetableToChop(VegetableModel vegetable, PlayerId playerId)
     {
+        choppingBoardModels[(int)playerId].playerId = playerId; //Hack. Unsure why it's bugging.
         choppingBoardModels[(int)playerId].vegetablesOnBoard.Add(vegetable);
+        playerController.UpdateChoppedVegetables(choppingBoardModels[(int)playerId]);
         Debug.LogFormat("{0} placed on board by {1}", vegetable.type, playerId);
     }
 
@@ -42,6 +52,7 @@ public class ChoppingBoardController : MonoBehaviour
         {
             SaladModel saladModel = new SaladModel(vegetablesOnBoard);
             choppingBoardModels[(int)playerId].vegetablesOnBoard = new List<VegetableModel>();
+            playerController.UpdateChoppedVegetables(choppingBoardModels[(int)playerId]);
             return saladModel;
         }
         else

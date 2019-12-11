@@ -30,7 +30,10 @@ public class PlayerController : MonoBehaviour
 
     private void PickupVegetable(VegetableModel vegetableModel, PlayerId playerId)
     {
-        playerModels[(int)playerId].vegetablesInHand.Add(vegetableModel);
+        var vegetables = playerModels[(int)playerId].vegetablesInHand;
+        vegetables.Add(vegetableModel);
+        playerHudView.UpdateHud(playerModels[(int)playerId]);
+        SetActivityLog((int)playerId, $"{vegetableModel.type}\nPicked!");
         Debug.LogFormat("{0} picked by {1}", vegetableModel.type, playerId);
     }
 
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         choppingBoardController.PlaceVegetableToChop(vegetableToChop, playerId);
         StartCoroutine(ChoppingEnumerator(playerId));
+        StartCoroutine(playerHudView.ChoppingIndicator(playerId, choppingTime));
         Debug.LogFormat("{0} Started Chopping {1}", (PlayerId)playerId, vegetableToChop.type);
     }
 
@@ -46,6 +50,7 @@ public class PlayerController : MonoBehaviour
         RestrictMovement(playerId, true);
         yield return new WaitForSeconds(choppingTime);
         RestrictMovement(playerId, false);
+        playerHudView.UpdateHud(playerModels[(int)playerId]);
         Debug.LogFormat("{0} Finished Chopping", (PlayerId)playerId);
     }
 
@@ -69,6 +74,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            SetActivityLog((int)playerId, "Hands\nfull!");
             Debug.LogError("Can't pickup, empty your hands!");
         }
     }
@@ -81,17 +87,25 @@ public class PlayerController : MonoBehaviour
             {
                 var vegetableModel = playerModels[(int)playerId].vegetablesInHand[0];
                 playerModels[(int)playerId].vegetablesInHand.RemoveAt(0);
+                playerHudView.UpdateHud(playerModels[(int)playerId]);
                 ChopVegetable(vegetableModel, playerId);
             }
             else
             {
+                SetActivityLog((int)playerId, "Get a \n Vegetable!");
                 Debug.LogError("Get Some Vegetables!");
             }
         }
         else
         {
+            SetActivityLog((int)playerId, "Go to \nyour board! ");
             Debug.LogError("Not your board!");
         }
+    }
+
+    public void UpdateChoppedVegetables(ChoppingBoardModel choppingBoardModel)
+    {
+        playerHudView.UpdateHud(choppingBoardModel);
     }
 
     public void PickSaladFromBoard(PlayerId playerId)
@@ -104,27 +118,32 @@ public class PlayerController : MonoBehaviour
                 if (salad != null)
                 {
                     playerModels[(int)playerId].saladInHand = salad;
-                    string vegetableList = "";
-                    {
-                        salad.vegetables.ForEach(vegetable =>
-                        {
-                            vegetableList += " " + vegetable.type;
-                        });
-                    }
-                    Debug.LogFormat("{0} Picked up {1} salad", playerId, vegetableList);
+                    playerHudView.UpdateHud(playerModels[(int)playerId]);
+                    SetActivityLog((int)playerId, "Picked up\n a salad!");
+                    // string vegetableList = "";
+                    // {
+                    //     salad.vegetables.ForEach(vegetable =>
+                    //     {
+                    //         vegetableList += " " + vegetable.type;
+                    //     });
+                    // }
+                    // Debug.LogFormat("{0} Picked up {1} salad", playerId, vegetableList);
                 }
                 else
                 {
+                    SetActivityLog((int)playerId, "There's no\nSalad!");
                     Debug.LogError("Nothing on the board!");
                 }
             }
             else
             {
+                SetActivityLog((int)playerId, "Hands are\n not empty!");
                 Debug.LogError("Your hands need to be empty to pickup the salad!");
             }
         }
         else
         {
+            SetActivityLog((int)playerId, "There's no\nSalad!");
             Debug.LogError("Not your board!");
         }
     }
@@ -132,8 +151,20 @@ public class PlayerController : MonoBehaviour
     public void RemoveSaladFromPlayer(int playerId)
     {
         playerModels[playerId].saladInHand = new SaladModel();
+        playerHudView.UpdateHud(playerModels[playerId]);
     }
-    
+
+    public void SetActivityLog(int playerId, string log)
+    {
+        playerHudView.SetActivityLog(playerId, log);
+    }
+
+    public void OnGameOver(PlayerId playerId)
+    {
+        RestrictMovement(playerId, true);
+        SetActivityLog((int)playerId, "GAME OVER!");
+    }
+
     public void UpdatePlayersModel(List<PlayerModel> playerModels)
     {
         this.playerModels = playerModels;

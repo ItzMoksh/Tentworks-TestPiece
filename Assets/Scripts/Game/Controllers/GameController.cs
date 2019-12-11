@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     private PlayerController playerController = null;
     private CustomerController customerController = null;
 
+    private List<bool> gameOver = new List<bool>() { false, false };
+
     private GameView gameView = null;
 
     private void Awake()
@@ -35,20 +37,57 @@ public class GameController : MonoBehaviour
         gameView.StartTimerAllPlayers();
     }
 
+    private void OnGameOver()
+    {
+        var players = gameModel.playersInfo;
+        int maxScore = 0;
+        int maxId = 0;
+        for (int i = 0, l = players.Count; i < l; i++)
+        {
+            if (players[i].score > maxScore)
+            {
+                maxScore = players[i].score;
+                maxId = i;
+            }
+        }
+
+        gameView.ShowGameOver(gameModel.playersInfo[maxId],maxId);
+    }
+
     public void OnCorrectDelivery(int playerId)
     {
         int score = gameModel.playersInfo[playerId].score;
+        int time = gameModel.playersInfo[playerId].timeLeft;
         score += scoreModel.correctDelivery;
-        gameView.SetPlayerScore(playerId,score);
+        time += scoreModel.timeBonus;
+        gameView.SetPlayerScore(playerId, score);
     }
 
     public void OnInCorrectDelivery(int playerId)
     {
-        gameModel.playersInfo[playerId].score -= scoreModel.incorrectDelivery;
+        int score = gameModel.playersInfo[playerId].score;
+        score -= scoreModel.incorrectDelivery;
+        gameView.SetPlayerScore(playerId, score);
     }
 
     public void OnTimeOver(PlayerId playerId)
     {
+        gameOver[(int)playerId] = true;
+        playerController.OnGameOver(playerId);
 
+        bool allOver = true;
+        for (int i = 0, l = gameOver.Count; i < l; i++)
+        {
+            if (!gameOver[i])
+            {
+                allOver = false;
+            }
+
+        }
+
+        if (allOver)
+        {
+            OnGameOver();
+        }
     }
 }

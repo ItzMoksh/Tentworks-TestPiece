@@ -117,6 +117,7 @@ public class CustomerController : MonoBehaviour
         var playerModel = playerController.GetPlayerModel(playerId);
         if (playerModel.saladInHand.vegetables.Count == 0)
         {
+            playerController.SetActivityLog(playerId,"Get a \n Salad!");
             Debug.LogError("No salad in hand!");
             return;
         }
@@ -143,11 +144,13 @@ public class CustomerController : MonoBehaviour
             if (diff > 0)
             {
                 gameController.OnInCorrectDelivery(playerId);
+                playerController.SetActivityLog(playerId, "Incorrect\nDelivery!");
                 Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
             }
             else
             {
                 gameController.OnCorrectDelivery(playerId);
+                playerController.SetActivityLog(playerId, "Correct\nDelivery!");
                 Destroy(customerView.gameObject);
                 Debug.LogWarningFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
             }
@@ -155,6 +158,7 @@ public class CustomerController : MonoBehaviour
         else
         {
             gameController.OnInCorrectDelivery(playerId);
+            playerController.SetActivityLog(playerId, "Incorrect\nDelivery!");
             Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
         }
 

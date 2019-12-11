@@ -21,12 +21,23 @@ public class PlayerHudView : MonoBehaviour
         }
     }
 
-    public void SetHud(PlayerId playerId, List<VegetableModel> vegetables, VegetableListType type)
+    public void UpdateHud(PlayerModel playerModel)
+    {
+        SetHud(playerModel.id, playerModel.vegetablesInHand, VegetableListType.IN_HAND);
+        SetHud(playerModel.id, playerModel.saladInHand.vegetables, VegetableListType.SALAD);
+    }
+
+    public void UpdateHud(ChoppingBoardModel choppingBoardModel)
+    {
+        SetHud((int)choppingBoardModel.playerId, choppingBoardModel.vegetablesOnBoard, VegetableListType.CHOPPED);
+    }
+
+    public void SetHud(int playerId, List<VegetableModel> vegetables, VegetableListType type)
     {
         string vegetablesString = "";
         for (int i = 0, l = vegetables.Count; i < l; i++)
         {
-            vegetablesString += $"{vegetables[i]}\n";
+            vegetablesString += $"{vegetables[i].type}\n";
         }
 
         switch (type)
@@ -50,9 +61,9 @@ public class PlayerHudView : MonoBehaviour
 
     }
 
-    public void SetActivityLog(string log)
+    public void SetActivityLog(int playerId, string log)
     {
-
+        playersHud[playerId].activityLog.text = log;
     }
 
     public IEnumerator ChoppingIndicator(PlayerId playerId, float duration)
@@ -96,5 +107,6 @@ public class PlayerHudView : MonoBehaviour
             duration--;
 
         }
+        playersHud[(int)playerId].activityLog.text = "";
     }
 }

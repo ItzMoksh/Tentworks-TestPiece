@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 
@@ -7,6 +8,8 @@ public class GameView : MonoBehaviour
 {
     [SerializeField] private GameObject controllers = null;
     [SerializeField] private GameObject gameOverPanel = null;
+    [SerializeField] private TextMeshProUGUI winnerText = null;
+    [SerializeField] private TextMeshProUGUI restartText = null;
     [SerializeField] private List<TextMeshProUGUI> playerScores = null;
     [SerializeField] private List<TextMeshProUGUI> playersTimeleft = null;
 
@@ -21,7 +24,7 @@ public class GameView : MonoBehaviour
 
     private void Start()
     {
-
+        gameOverPanel.SetActive(false);
     }
 
     private IEnumerator Timeleft(PlayerId playerId)
@@ -33,6 +36,16 @@ public class GameView : MonoBehaviour
             gameModel.playersInfo[(int)playerId].timeLeft--;
         }
         gameController.OnTimeOver(playerId);
+    }
+
+    private IEnumerator LevelRestart()
+    {
+        for (int i = 5; i > 0; i--)
+        {
+            restartText.text = $"Restaring in {i}";
+            yield return new WaitForSeconds(1);
+        }
+        SceneManager.LoadScene("Game");
     }
 
     public void Init(GameModel gameModel)
@@ -56,5 +69,12 @@ public class GameView : MonoBehaviour
     public void SetPlayerTimeLeft(PlayerId playerId, int timeLeft)
     {
         gameModel.playersInfo[(int)playerId].timeLeft = timeLeft;
+    }
+
+    public void ShowGameOver(PlayerInfo playerInfo, int id)
+    {
+        gameOverPanel.SetActive(true);
+        winnerText.text = $"Player {id + 1} WON!!!\nScore: {playerInfo.score}";
+        StartCoroutine(LevelRestart());
     }
 }
