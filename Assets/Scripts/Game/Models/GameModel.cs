@@ -20,8 +20,10 @@ public class PlayerInfo
 [Serializable]
 public class ScoreModel
 {
-    public int correctDelivery;
-    public int incorrectDelivery;
+    public int correctDeliveryPoints;
+    public int incorrectDeliveryPoints;
+    public int correctDeliveryTime;
+    public int throwPenalty;
     public int scoreBonus;
     public int timeBonus;
     public float speedBonus;

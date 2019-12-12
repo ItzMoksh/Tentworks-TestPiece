@@ -73,6 +73,10 @@ public class PlayerView : MonoBehaviour
             {
                 playerController.PlaceVegetableOnBoard((PlayerId)playerId);
             }
+            else if(interactablesNear[playerId].dustbin)
+            {
+                playerController.ThrowSalad((PlayerId)playerId);
+            }
         }
         if ((Input.GetKeyDown(KeyCode.LeftAlt) && playerId == 0) || (Input.GetKeyDown(KeyCode.RightAlt) && playerId == 1))
         {
@@ -193,7 +197,7 @@ public class PlayerView : MonoBehaviour
                 break;
             case "Dustbin":
                 {
-                    interactablesNear[playerId].dustbin = true;
+                    interactablesNear[playerId].dustbin = false;
                 }
                 break;
         }

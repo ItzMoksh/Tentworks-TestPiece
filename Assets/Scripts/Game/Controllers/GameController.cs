@@ -51,23 +51,30 @@ public class GameController : MonoBehaviour
             }
         }
 
-        gameView.ShowGameOver(gameModel.playersInfo[maxId],maxId);
+        gameView.ShowGameOver(gameModel.playersInfo[maxId], maxId);
     }
 
     public void OnCorrectDelivery(int playerId)
     {
         int score = gameModel.playersInfo[playerId].score;
         int time = gameModel.playersInfo[playerId].timeLeft;
-        score += scoreModel.correctDelivery;
-        time += scoreModel.timeBonus;
+        score += scoreModel.correctDeliveryPoints;
+        time += scoreModel.correctDeliveryTime;
         gameView.SetPlayerScore(playerId, score);
+        gameView.SetPlayerTimeLeft((PlayerId)playerId, time);
     }
 
     public void OnInCorrectDelivery(int playerId)
     {
         int score = gameModel.playersInfo[playerId].score;
-        score -= scoreModel.incorrectDelivery;
+        score -= scoreModel.incorrectDeliveryPoints;
         gameView.SetPlayerScore(playerId, score);
+    }
+
+    public void OnSaladThrow(PlayerId playerId)
+    {
+        int score = gameModel.playersInfo[(int)playerId].score -= scoreModel.throwPenalty;
+        gameView.SetPlayerScore((int)playerId,score);
     }
 
     public void OnTimeOver(PlayerId playerId)

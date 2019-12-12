@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int vegetablePickLimit = 2;
     [SerializeField] private float choppingTime = 2f;
 
+    private GameController gameController = null;
     private VegetableController vegetableController = null;
     private ChoppingBoardController choppingBoardController = null;
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        gameController = controllers.GetComponentInChildren<GameController>();
         vegetableController = controllers.GetComponentInChildren<VegetableController>();
         choppingBoardController = controllers.GetComponentInChildren<ChoppingBoardController>();
 
@@ -157,6 +159,20 @@ public class PlayerController : MonoBehaviour
     public void SetActivityLog(int playerId, string log)
     {
         playerHudView.SetActivityLog(playerId, log);
+    }
+
+    public void ThrowSalad(PlayerId playerId)
+    {
+        if (playerModels[(int)playerId].saladInHand.vegetables.Count == 0)
+        {
+            SetActivityLog((int)playerId, "No salad\nto throw!");
+        }
+        else
+        {
+            RemoveSaladFromPlayer((int)playerId);
+            gameController.OnSaladThrow(playerId);
+            SetActivityLog((int)playerId, "Salad Thrown!");
+        }
     }
 
     public void OnGameOver(PlayerId playerId)
