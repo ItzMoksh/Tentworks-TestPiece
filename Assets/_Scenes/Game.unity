@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 50215341}
   - component: {fileID: 50215342}
   - component: {fileID: 50215343}
+  - component: {fileID: 50215344}
   m_Layer: 0
   m_Name: Dustbin
   m_TagString: Dustbin
@@ -318,10 +319,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015849378, y: -0.27458066}
+  m_Offset: {x: -0.015849382, y: 0.003580032}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -332,7 +333,33 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.24584275, y: 0.1908387}
+  m_Size: {x: 0.24584275, y: 0.101109505}
+  m_EdgeRadius: 0
+--- !u!61 &50215344
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50215340}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.2213322}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.51, y: 0.74}
+    newSize: {x: 0.51, y: 0.74}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.51, y: 0.2973356}
   m_EdgeRadius: 0
 --- !u!1 &65265701
 GameObject:
@@ -1723,6 +1750,7 @@ Transform:
   - {fileID: 1174172090}
   - {fileID: 916623258}
   - {fileID: 1657365357}
+  - {fileID: 1754235897}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6567,6 +6595,50 @@ MonoBehaviour:
     score: 0
     state: 0
     vegetablesInHand: []
+--- !u!1 &1754235896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1754235897}
+  - component: {fileID: 1754235898}
+  m_Layer: 0
+  m_Name: PlateView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1754235897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754235896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 405553174}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1754235898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754235896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bdb3ce4f5ac4dd684dd30fba392a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllers: {fileID: 1453500925}
 --- !u!1 &1827557883
 GameObject:
   m_ObjectHideFlags: 0
@@ -7903,7 +7975,7 @@ MonoBehaviour:
     correctDeliveryPoints: 10
     incorrectDeliveryPoints: 5
     correctDeliveryTime: 20
-    throwPenalty: 0
+    throwPenalty: 3
     scoreBonus: 20
     timeBonus: 20
     speedBonus: 2
