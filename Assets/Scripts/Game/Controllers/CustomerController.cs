@@ -95,6 +95,37 @@ public class CustomerController : MonoBehaviour
         return salad;
     }
 
+    private bool CompareVegetableList(List<VegetableModel> saladA, List<VegetableModel> saladB)
+    {
+        if (saladA.Count == saladB.Count)
+        {
+            List<VegetableType> customerVegetableList = new List<VegetableType>();
+            List<VegetableType> playerVegetableList = new List<VegetableType>();
+
+            for (int i = 0, l = saladA.Count; i < l; i++)
+            {
+                customerVegetableList.Add(saladA[i].type);
+                playerVegetableList.Add(saladB[i].type);
+            }
+
+            int diff = customerVegetableList.Except(playerVegetableList).ToList().Count;
+
+            Debug.Log(diff);
+            if (diff > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     public void StartGame()
     {
@@ -105,7 +136,8 @@ public class CustomerController : MonoBehaviour
 
     public void OnTimeOver(CustomerView customerView, int id)
     {
-        //Deduct Score
+        gameController.OnCustomerLeft();
+        playerController.SetActivityLog("Customer Left!");
         Debug.LogErrorFormat("Time Over! Customer {0} left", id);
         AddToEmptyTables(customerView.customerModel.tableAssigned);
         Destroy(customerView.gameObject); //Need object pooling
@@ -117,43 +149,22 @@ public class CustomerController : MonoBehaviour
         var playerModel = playerController.GetPlayerModel(playerId);
         if (playerModel.saladInHand.vegetables.Count == 0)
         {
-            playerController.SetActivityLog(playerId,"Get a \n Salad!");
+            playerController.SetActivityLog(playerId, "Get a \n Salad!");
             Debug.LogError("No salad in hand!");
             return;
         }
 
-        AddToEmptyTables(customerView.customerModel.tableAssigned);
-
         var customerSalad = customerView.customerModel.salad.vegetables;
         var playerSalad = playerModel.saladInHand.vegetables;
 
-        if (customerSalad.Count == playerSalad.Count)
+
+        if (CompareVegetableList(customerSalad, playerSalad))
         {
-            List<VegetableType> customerVegetableList = new List<VegetableType>();
-            List<VegetableType> playerVegetableList = new List<VegetableType>();
-
-            for (int i = 0, l = customerSalad.Count; i < l; i++)
-            {
-                customerVegetableList.Add(customerSalad[i].type);
-                playerVegetableList.Add(playerSalad[i].type);
-            }
-
-            int diff = customerVegetableList.Except(playerVegetableList).ToList().Count;
-
-            Debug.Log(diff);
-            if (diff > 0)
-            {
-                gameController.OnInCorrectDelivery(playerId);
-                playerController.SetActivityLog(playerId, "Incorrect\nDelivery!");
-                Debug.LogErrorFormat("{0} Delivered Incorrect Salad!", (PlayerId)playerId);
-            }
-            else
-            {
-                gameController.OnCorrectDelivery(playerId);
-                playerController.SetActivityLog(playerId, "Correct\nDelivery!");
-                Destroy(customerView.gameObject);
-                Debug.LogWarningFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
-            }
+            AddToEmptyTables(customerView.customerModel.tableAssigned);
+            gameController.OnCorrectDelivery(playerId);
+            playerController.SetActivityLog(playerId, "Correct\nDelivery!");
+            Destroy(customerView.gameObject);
+            Debug.LogWarningFormat("{0} Delivered Correct Salad!", (PlayerId)playerId);
         }
         else
         {
@@ -164,5 +175,4 @@ public class CustomerController : MonoBehaviour
 
         playerController.RemoveSaladFromPlayer(playerId);
     }
-
 }

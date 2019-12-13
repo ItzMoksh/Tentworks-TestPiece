@@ -22,7 +22,8 @@ public class ScoreModel
 {
     public int correctDeliveryPoints;
     public int incorrectDeliveryPoints;
-    public int correctDeliveryTime;
+    public int correctDeliveryTimePoints;
+    public int timeOverPoints;
     public int throwPenalty;
     public int scoreBonus;
     public int timeBonus;

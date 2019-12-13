@@ -9,6 +9,7 @@ public class HudModel
     public TextMeshProUGUI vegetablesChopped;
     public TextMeshProUGUI saladInHand;
     public TextMeshProUGUI activityLog;
+    public TextMeshProUGUI vegetableOnPlate;
 }
 
 public enum VegetableListType

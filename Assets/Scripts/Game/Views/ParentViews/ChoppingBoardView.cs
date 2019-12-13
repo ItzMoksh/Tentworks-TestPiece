@@ -44,6 +44,11 @@ public class ChoppingBoardView : MonoBehaviour
 
     public void OnTriggerExitCallback(Collider2D collider, ChoppingBoardModel choppingBoardModel)
     {
-
+        if (collider.tag == "Player")
+        {
+            var playerColl = collider.GetComponent<PlayerCollisionView>();
+            int playerId = playerColl.playerId;
+            choppingBoardController.UpdateChoppingBoardOnPlayer(playerId, null);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -59,7 +58,7 @@ public class GameController : MonoBehaviour
         int score = gameModel.playersInfo[playerId].score;
         int time = gameModel.playersInfo[playerId].timeLeft;
         score += scoreModel.correctDeliveryPoints;
-        time += scoreModel.correctDeliveryTime;
+        time += scoreModel.correctDeliveryTimePoints;
         gameView.SetPlayerScore(playerId, score);
         gameView.SetPlayerTimeLeft((PlayerId)playerId, time);
     }
@@ -74,7 +73,16 @@ public class GameController : MonoBehaviour
     public void OnSaladThrow(PlayerId playerId)
     {
         int score = gameModel.playersInfo[(int)playerId].score -= scoreModel.throwPenalty;
-        gameView.SetPlayerScore((int)playerId,score);
+        gameView.SetPlayerScore((int)playerId, score);
+    }
+
+    public void OnCustomerLeft()
+    {
+        for (int i = 0, l = gameModel.playersInfo.Count; i < l; i++)
+        {
+            int score = gameModel.playersInfo[i].score -= scoreModel.timeOverPoints;
+            gameView.SetPlayerScore(i, score);
+        }
     }
 
     public void OnTimeOver(PlayerId playerId)

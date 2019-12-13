@@ -38,10 +38,9 @@ public class PlateController : MonoBehaviour
 
     public bool PutVegetableOnPlate(PlayerId playerId, VegetableModel vegetable)
     {
-        VegetableModel vegetableOnPlate = plateModels[(int)playerId].vegetable;
-        if (vegetableOnPlate == null)
+        if (plateModels[(int)playerId].vegetable == null)
         {
-            vegetableOnPlate = vegetable;
+            plateModels[(int)playerId].vegetable = vegetable;
             return true;
         }
         else

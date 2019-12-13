@@ -17,22 +17,23 @@ public class PlayerHudView : MonoBehaviour
             playersHud[i].vegetablesInHand.text =
             playersHud[i].saladInHand.text =
             playersHud[i].activityLog.text =
+            playersHud[i].vegetableOnPlate.text =
             "";
         }
     }
 
     public void UpdateHud(PlayerModel playerModel)
     {
-        SetHud(playerModel.id, playerModel.vegetablesInHand, VegetableListType.IN_HAND);
-        SetHud(playerModel.id, playerModel.saladInHand.vegetables, VegetableListType.SALAD);
+        SetVegetableListHuds(playerModel.id, playerModel.vegetablesInHand, VegetableListType.IN_HAND);
+        SetVegetableListHuds(playerModel.id, playerModel.saladInHand.vegetables, VegetableListType.SALAD);
     }
 
     public void UpdateHud(ChoppingBoardModel choppingBoardModel)
     {
-        SetHud((int)choppingBoardModel.playerId, choppingBoardModel.vegetablesOnBoard, VegetableListType.CHOPPED);
+        SetVegetableListHuds((int)choppingBoardModel.playerId, choppingBoardModel.vegetablesOnBoard, VegetableListType.CHOPPED);
     }
 
-    public void SetHud(int playerId, List<VegetableModel> vegetables, VegetableListType type)
+    public void SetVegetableListHuds(int playerId, List<VegetableModel> vegetables, VegetableListType type)
     {
         string vegetablesString = "";
         for (int i = 0, l = vegetables.Count; i < l; i++)
@@ -64,6 +65,16 @@ public class PlayerHudView : MonoBehaviour
     public void SetActivityLog(int playerId, string log)
     {
         playersHud[playerId].activityLog.text = log;
+    }
+
+    public void SetPlateHud(PlayerId playerId, VegetableModel vegetable)
+    {
+        playersHud[(int)playerId].vegetableOnPlate.text = vegetable.type.ToString();
+    }
+
+    public void ClearPlateHud(int playerId)
+    {
+        playersHud[playerId].vegetableOnPlate.text = "";
     }
 
     public IEnumerator ChoppingIndicator(PlayerId playerId, float duration)

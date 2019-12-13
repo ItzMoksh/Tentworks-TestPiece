@@ -73,9 +73,13 @@ public class PlayerView : MonoBehaviour
             {
                 playerController.PlaceVegetableOnBoard((PlayerId)playerId);
             }
-            else if(interactablesNear[playerId].dustbin)
+            else if (interactablesNear[playerId].dustbin)
             {
                 playerController.ThrowSalad((PlayerId)playerId);
+            }
+            else if (interactablesNear[playerId].plate)
+            {
+                playerController.PlaceVegetableOnPlate((PlayerId)playerId);
             }
         }
         if ((Input.GetKeyDown(KeyCode.LeftAlt) && playerId == 0) || (Input.GetKeyDown(KeyCode.RightAlt) && playerId == 1))
@@ -83,6 +87,10 @@ public class PlayerView : MonoBehaviour
             if (interactablesNear[playerId].choppingBoard)
             {
                 playerController.PickSaladFromBoard((PlayerId)playerId);
+            }
+            else if (interactablesNear[playerId].plate)
+            {
+                playerController.PickVegetableFromPlate((PlayerId)playerId);
             }
         }
     }
@@ -163,7 +171,6 @@ public class PlayerView : MonoBehaviour
         {
             case "Vegetable":
                 {
-                    // Debug.LogFormat("Setting interactables {0.} to {1}",playerId,true);
                     interactablesNear[playerId].vegetable = true;
                 }
                 break;
@@ -177,6 +184,11 @@ public class PlayerView : MonoBehaviour
                     interactablesNear[playerId].dustbin = true;
                 }
                 break;
+            case "Plate":
+                {
+                    interactablesNear[playerId].plate = true;
+                }
+                break;
         }
     }
 
@@ -186,7 +198,6 @@ public class PlayerView : MonoBehaviour
         {
             case "Vegetable":
                 {
-                    // Debug.LogFormat("Setting interactables {0.} to {1}",playerId,false);
                     interactablesNear[playerId].vegetable = false;
                 }
                 break;
@@ -198,6 +209,11 @@ public class PlayerView : MonoBehaviour
             case "Dustbin":
                 {
                     interactablesNear[playerId].dustbin = false;
+                }
+                break;
+            case "Plate":
+                {
+                    interactablesNear[playerId].plate = false;
                 }
                 break;
         }

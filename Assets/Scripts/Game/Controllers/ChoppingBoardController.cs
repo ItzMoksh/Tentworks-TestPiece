@@ -27,6 +27,10 @@ public class ChoppingBoardController : MonoBehaviour
 
     public bool ValidateChoppingBoardId(PlayerId playerId)
     {
+        if(choppingBoardInPlayerViscinity[(int)playerId] == null)
+        {
+            return false;
+        }
         if (choppingBoardInPlayerViscinity[(int)playerId].playerId == playerId)
         {
             return true;
