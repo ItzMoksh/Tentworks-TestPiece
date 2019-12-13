@@ -6,14 +6,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject controllers = null;
     [SerializeField] private GameObject views = null;
     [SerializeField] private GameModel gameModel = new GameModel();
-    [SerializeField] private ScoreModel scoreModel = new ScoreModel();
 
     private PlayerController playerController = null;
     private CustomerController customerController = null;
-
     private List<bool> gameOver = new List<bool>() { false, false };
-
     private GameView gameView = null;
+
+    public ScoreModel scoreModel = new ScoreModel();
 
     private void Awake()
     {
@@ -82,6 +81,26 @@ public class GameController : MonoBehaviour
         {
             int score = gameModel.playersInfo[i].score -= scoreModel.timeOverPoints;
             gameView.SetPlayerScore(i, score);
+        }
+    }
+
+    public void OnPowerUpPickup(PlayerId playerId, PowerUpType powerUpType)
+    {
+        switch (powerUpType)
+        {
+            case PowerUpType.SCORE:
+                {
+                    gameModel.playersInfo[(int)playerId].score += scoreModel.scoreBonus;
+                    gameView.SetPlayerScore((int)playerId, gameModel.playersInfo[(int)playerId].score);
+                }
+                break;
+
+            case PowerUpType.TIME:
+                {
+                    gameModel.playersInfo[(int)playerId].timeLeft += scoreModel.timeBonus;
+                    gameView.SetPlayerTimeLeft(playerId, gameModel.playersInfo[(int)playerId].timeLeft);
+                }
+                break;
         }
     }
 

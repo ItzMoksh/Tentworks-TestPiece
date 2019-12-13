@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject views = null;
     [SerializeField] private int vegetablePickLimit = 2;
     [SerializeField] private float choppingTime = 2f;
+    [SerializeField] private float speedBuffDuration = 30f;
 
     private GameController gameController = null;
     private PlateController plateController = null;
@@ -49,6 +50,11 @@ public class PlayerController : MonoBehaviour
         Debug.LogFormat("{0} Started Chopping {1}", (PlayerId)playerId, vegetableToChop.type);
     }
 
+    private void RestrictMovement(PlayerId playerId, bool doRestrict)
+    {
+        playerView.RestrictMovement(playerId, doRestrict);
+    }
+
     private IEnumerator ChoppingEnumerator(PlayerId playerId)
     {
         RestrictMovement(playerId, true);
@@ -58,9 +64,17 @@ public class PlayerController : MonoBehaviour
         Debug.LogFormat("{0} Finished Chopping", (PlayerId)playerId);
     }
 
-    private void RestrictMovement(PlayerId playerId, bool doRestrict)
+
+    private IEnumerator SpeedBuff(PlayerId playerId, float duration)
     {
-        playerView.RestrictMovement(playerId, doRestrict);
+        float defaultSpeed = playerModels[(int)playerId].speed;
+        playerModels[(int)playerId].speed += gameController.scoreModel.speedBonus;
+        while (duration > 0)
+        {
+            yield return new WaitForSeconds(1);
+            duration--;
+        }
+        playerModels[(int)playerId].speed = defaultSpeed;
     }
 
     public PlayerModel GetPlayerModel(int playerId)
@@ -115,16 +129,16 @@ public class PlayerController : MonoBehaviour
             {
                 var vegetableModel = playerModels[(int)playerId].vegetablesInHand[0];
                 playerModels[(int)playerId].vegetablesInHand.RemoveAt(0);
-                if(plateController.PutVegetableOnPlate(playerId, vegetableModel))
+                if (plateController.PutVegetableOnPlate(playerId, vegetableModel))
                 {
-                playerHudView.SetPlateHud(playerId, vegetableModel);
-                SetActivityLog((int)playerId, $"Placed {vegetableModel.type}\non plate!");
+                    playerHudView.SetPlateHud(playerId, vegetableModel);
+                    SetActivityLog((int)playerId, $"Placed {vegetableModel.type}\non plate!");
                 }
                 else
                 {
                     SetActivityLog((int)playerId, $"Plate is not empty!");
                 }
-                
+
             }
             else
             {
@@ -240,6 +254,11 @@ public class PlayerController : MonoBehaviour
             gameController.OnSaladThrow(playerId);
             SetActivityLog((int)playerId, "Salad Thrown!");
         }
+    }
+
+    public void OnSpeedPowerUp(PlayerId playerId)
+    {
+        StartCoroutine(SpeedBuff(playerId, speedBuffDuration));
     }
 
     public void OnGameOver(PlayerId playerId)
