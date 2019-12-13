@@ -29,7 +29,9 @@ public class PowerUpController : MonoBehaviour
 
         int randomIndex = Random.Range(0, powerUpPrefabs.Count);
 
-        var powerUp = Instantiate(powerUpPrefabs[randomIndex], randomPos, Quaternion.identity);
+        var powerUp = Instantiate(powerUpPrefabs[randomIndex]);
+        powerUp.transform.parent = spawnRegion.transform;
+        powerUp.transform.position = randomPos;
         powerUp.GetComponent<PowerUpView>().Init(this, playerId);
     }
 
@@ -49,7 +51,7 @@ public class PowerUpController : MonoBehaviour
                 case PowerUpType.SCORE:
                 case PowerUpType.TIME:
                     {
-                        gameController.OnPowerUpPickup(playerCollidedId,powerUpView.powerUpModel.type);
+                        gameController.OnPowerUpPickup(playerCollidedId, powerUpView.powerUpModel.type);
                     }
                     break;
             }
